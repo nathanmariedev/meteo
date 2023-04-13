@@ -1,6 +1,6 @@
 ## Hello !
 
-Voici un "starterkit" pour Nestjs en TypeScript
+Voici un "meteo" pour Nestjs en TypeScript
 Plus complet que le scaffolding original que propose le CLI.
 
 Il contient :

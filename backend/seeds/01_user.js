@@ -2,10 +2,10 @@
 exports.seed = async (knex) => {
   if (process.env.NODE_ENV !== 'production') {
     await knex.schema.raw(`
-      TRUNCATE "starterkit"."user";
+      TRUNCATE "meteo"."user";
     `);
     // password = hellohello123
-    await knex.table('starterkit.user').insert([
+    await knex.table('meteo.user').insert([
       {
         email: 'user1@email.com',
         password: '$2y$10$lZiziXuJnoybZkRtibjqUeinmZ92uvuWXoeG40Z5pJteEnNzweWlW',

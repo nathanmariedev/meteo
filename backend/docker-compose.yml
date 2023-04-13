@@ -1,24 +1,24 @@
 # This is only used for local development environment
 version: '3.3'
 services:
-  starterkit-pg:
-    container_name: starterkit-pg
+  meteo-pg:
+    container_name: meteo-pg
     image: postgres:11.2-alpine
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=starterkit
+      - POSTGRES_DB=meteo
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-  starterkit-adminer:
+  meteo-adminer:
     image: adminer
-    container_name: starterkit-adminer
+    container_name: meteo-adminer
     ports:
       - 8181:8080
     environment:
-      - ADMINER_DEFAULT_SERVER=starterkit-pg
-  starterkit-redis:
-    container_name: starterkit-redis
+      - ADMINER_DEFAULT_SERVER=meteo-pg
+  meteo-redis:
+    container_name: meteo-redis
     image: redis:5.0.3-alpine
     environment:
       - ALLOW_EMPTY_PASSWORD=yes

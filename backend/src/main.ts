@@ -84,8 +84,8 @@ async function bootstrap(): Promise<void> {
 
   const options = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('Starterkit example')
-    .setDescription('The starterkit API description')
+    .setTitle('Meteo example')
+    .setDescription('The meteo API description')
     .setVersion('1.0')
     .build();
 

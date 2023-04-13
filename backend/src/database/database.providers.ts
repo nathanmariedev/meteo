@@ -22,7 +22,7 @@ export const databaseProviders: Provider[] = [
           connectionString: configService.get('PG_CONNECTION_STRING'),
           connectionTimeoutMillis: 10000, //ms to wait before timing out when connecting a new client (ici 10 secondes)
           statement_timeout: 30000, //abort any statement that takes more than the specified number of milliseconds (ici 30 secondes)
-          application_name: 'nestjs-starterkit',
+          application_name: 'nestjs-meteo',
         },
         pool: {
           idleTimeoutMillis: 60000, //from tarn.js : Free resouces are destroyed after this many ms (ici 1 minute)

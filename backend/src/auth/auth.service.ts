@@ -36,7 +36,7 @@ export class AuthService {
 
   async generateJWTToken(user: User, options?: Record<string, unknown>): Promise<string> {
     const payload: JwtPayload = {
-      iss: 'api.starterkit',
+      iss: 'api.meteo',
       email: user.email,
       sub: user.userId,
       type: 'access',
@@ -49,7 +49,7 @@ export class AuthService {
 
   async generateActivationLink(user: User): Promise<string> {
     const payload: JwtPayload = {
-      iss: 'api.starterkit',
+      iss: 'api.meteo',
       email: user.email,
       sub: user.userId,
       type: 'activation',
@@ -70,7 +70,7 @@ export class AuthService {
   async generateResetPasswordLink(user: User): Promise<string> {
     const jwtLoginSecret = this.configService.get<string>('JWT_LOGIN_SECRET');
     const payload: JwtPayload = {
-      iss: 'api.starterkit',
+      iss: 'api.meteo',
       email: user.email,
       sub: user.userId,
       type: 'reset',

@@ -7,7 +7,7 @@ module.exports = {
     min: parseInt(process.env.KNEX_POOL_MIN, 10),
     max: parseInt(process.env.KNEX_POOL_MAX, 10),
   },
-  searchPath: ['public', 'starterkit'],
+  searchPath: ['public', 'meteo'],
   migrations: {
     directory: path.join(__dirname, './migrations'),
   },

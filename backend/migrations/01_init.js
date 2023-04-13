@@ -9,7 +9,7 @@ exports.up = (knex) => Promise.all([
     END;
     $$ LANGUAGE plpgsql;
   `),
-  knex.schema.raw('CREATE SCHEMA IF NOT EXISTS starterkit;'),
+  knex.schema.raw('CREATE SCHEMA IF NOT EXISTS meteo;'),
 ]);
 
 exports.down = (knex) => Promise;

@@ -19,7 +19,7 @@ export class BasicCrudModel<T> {
   ): Promise<T[]> {
     let whatevers = this.pg
       .select(...this.fields)
-      .from(`starterkit.${this.tableName}`)
+      .from(`meteo.${this.tableName}`)
       .where(where)
       .whereNull('deletedAt');
 
@@ -41,7 +41,7 @@ export class BasicCrudModel<T> {
   async findOne(where: Partial<T>): Promise<T> {
     const whatever = await this.pg
       .select(...this.fields)
-      .from(`starterkit.${this.tableName}`)
+      .from(`meteo.${this.tableName}`)
       .where(where)
       .limit(1)
       .whereNull('deletedAt');
@@ -51,7 +51,7 @@ export class BasicCrudModel<T> {
 
   async create(data: Partial<T>): Promise<T> {
     const whatever = await this.pg
-      .table(`starterkit.${this.tableName}`)
+      .table(`meteo.${this.tableName}`)
       .insert(data)
       .returning(this.fields);
 
@@ -60,7 +60,7 @@ export class BasicCrudModel<T> {
 
   async update(data: Partial<T>, where: Partial<T>): Promise<T[]> {
     const whatevers = await this.pg
-      .table(`starterkit.${this.tableName}`)
+      .table(`meteo.${this.tableName}`)
       .update(data)
       .where(where)
       .whereNull('deletedAt')
@@ -71,7 +71,7 @@ export class BasicCrudModel<T> {
 
   async delete(where: Partial<T>): Promise<T[]> {
     const whatevers = await this.pg
-      .table(`starterkit.${this.tableName}`)
+      .table(`meteo.${this.tableName}`)
       .update({ deletedAt: new Date() })
       .where(where)
       .returning(this.fields);
@@ -81,7 +81,7 @@ export class BasicCrudModel<T> {
 
   async count(where: Partial<T>, search?: Search): Promise<number> {
     let count = this.pg
-      .table(`starterkit.${this.tableName}`)
+      .table(`meteo.${this.tableName}`)
       .where(where)
       .whereNull('deletedAt')
       .count();
