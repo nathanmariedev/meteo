@@ -1,0 +1,17 @@
+:root {
+  --color-primary: rgb(11, 56, 41);
+  --color-second: rgb(18, 18, 84);
+  --color-main-background: #eee;
+  --color-main-flat: #fff;
+  --color-main-line: #222;
+  --global-border-radius: 10px;
+}
+
+
+html.dark{
+  color-scheme: dark;
+
+  --color-main-background: #222;
+  --color-main-flat: #444;
+  --color-main-line: #fff;
+}
