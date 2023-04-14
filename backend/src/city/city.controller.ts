@@ -57,6 +57,17 @@ export class CityController {
   
     return user
   }
+
+  @Get('/find/:query')
+  async findByQuery(@Param('query') query:string):Promise<City[]>{
+    console.log("City?")
+    const user=await this.cityService.findByQuery(query)
+    console.log("A")
+    console.log(user)
+    console.log("B")
+  
+    return user
+  }
   //Récupérer tous les utilisateurs
   /*async returnAllUsers(): Promise<User[]> {
     const users= await this.userService.findAll()

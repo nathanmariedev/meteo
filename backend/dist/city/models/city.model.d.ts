@@ -6,4 +6,5 @@ export declare class CityModel extends BasicCrudModel<City> {
     constructor(pg: Knex);
     findAll(): Promise<City[]>;
     findOneById(insee: string): Promise<City>;
+    findByQuery(query: string): Promise<City[]>;
 }

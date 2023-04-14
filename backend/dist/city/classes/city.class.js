@@ -13,6 +13,11 @@ exports.City = void 0;
 const swagger_1 = require("@nestjs/swagger");
 const class_validator_1 = require("class-validator");
 class City {
+    constructor(city) {
+        this.insee = city.insee;
+        this.cp = city.cp;
+        this.name = city.name;
+    }
 }
 __decorate([
     (0, class_validator_1.Length)(5),

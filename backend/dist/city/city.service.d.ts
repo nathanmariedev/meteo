@@ -5,4 +5,5 @@ export declare class CityService {
     constructor(cityModel: CityModel);
     findAll(): Promise<City[]>;
     findOneById(insee: string): Promise<City>;
+    findByQuery(query: string): Promise<City[]>;
 }

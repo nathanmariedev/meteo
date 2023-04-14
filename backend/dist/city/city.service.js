@@ -22,6 +22,9 @@ let CityService = class CityService {
     async findOneById(insee) {
         return this.cityModel.findOneById(insee);
     }
+    async findByQuery(query) {
+        return this.cityModel.findByQuery(query);
+    }
 };
 CityService = __decorate([
     (0, common_1.Injectable)(),

@@ -4,10 +4,17 @@ import { BasicCrudModel } from '../../common/models/basic-crud.model';
 import { Knex } from 'knex';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { plainToClass } from 'class-transformer';
+import { classToPlain, plainToClass } from 'class-transformer';
 import { City } from '../classes/city.class';
+import { validate } from 'class-validator';
+import { array } from 'joi';
+import axios from 'axios';
+import * as dotenv from 'dotenv'
 
+dotenv.config()
 const sqlDir = path.join(__dirname, '/sql');
+const API_URL='https://api.meteo-concept.com/api/'
+const API_KEY='1e3804f9ba78545c499d5dd4af53caf47fce3f32dd8d4096e003542c12f37144'
 
 @Injectable()
 export class CityModel extends BasicCrudModel<City> {
@@ -35,6 +42,22 @@ export class CityModel extends BasicCrudModel<City> {
     const file = await fs.readFile(`${sqlDir}/findById.sql`);
     const req = await this.pg.raw(file.toString(), [insee]);
     return req.rows
+  }
+
+  async findByQuery(query:string):Promise<City[]>{
+    console.log(API_URL)
+    let result:Array<City>
+    const response = await axios.get(`${API_URL}location/cities`, {
+      params: {
+        token: API_KEY,
+        search: query,
+      },
+    });
+    const data = response.data.cities;
+    console.log(data.length)
+    result=data.map(city => new City({insee:city.insee,cp:city.cp,name:city.name}) )
+    console.log(result)
+    return result
   }
 
 }

@@ -29,6 +29,14 @@ let CityController = class CityController {
         console.log("B");
         return user;
     }
+    async findByQuery(query) {
+        console.log("City?");
+        const user = await this.cityService.findByQuery(query);
+        console.log("A");
+        console.log(user);
+        console.log("B");
+        return user;
+    }
 };
 __decorate([
     (0, common_1.Get)('/:insee'),
@@ -38,6 +46,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], CityController.prototype, "findById", null);
+__decorate([
+    (0, common_1.Get)('/find/:query'),
+    __param(0, (0, common_1.Param)('query')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], CityController.prototype, "findByQuery", null);
 CityController = __decorate([
     (0, common_1.Controller)('city'),
     (0, swagger_1.ApiTags)('City'),
