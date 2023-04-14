@@ -10,9 +10,7 @@ exports.AppModule = void 0;
 const config_1 = require("@nestjs/config");
 const mailer_1 = require("@nestjs-modules/mailer");
 const common_1 = require("@nestjs/common");
-const auth_module_1 = require("./auth/auth.module");
 const database_module_1 = require("./database/database.module");
-const email_module_1 = require("./email/email.module");
 const nunjucks_module_1 = require("./nunjucks/nunjucks.module");
 const user_module_1 = require("./user/user.module");
 const city_module_1 = require("./city/city.module");
@@ -34,8 +32,6 @@ AppModule = __decorate([
                     },
                 }),
             }),
-            auth_module_1.AuthModule,
-            email_module_1.EmailModule,
             database_module_1.DatabaseModule,
             nunjucks_module_1.NunjucksModule,
             user_module_1.UserModule,
