@@ -3,5 +3,5 @@ config.env
 dist/
 .DS_Store
 /data
-/.vscode
+.vscode/
 minio
