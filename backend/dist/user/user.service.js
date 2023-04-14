@@ -12,15 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = require("@nestjs/common");
 const user_model_1 = require("./models/user.model");
+const city_service_1 = require("./../city/city.service");
 let UserService = class UserService {
-    constructor(userModel) {
+    constructor(userModel, cityService) {
         this.userModel = userModel;
+        this.cityService = cityService;
     }
     async findAll() {
         return this.userModel.findAll();
     }
     async findOneById(userId) {
-        return this.userModel.findOneById(userId);
+        let user = this.userModel.findOneById(userId);
+        return user;
     }
     async add(user) {
         return this.userModel.create(user);
@@ -28,7 +31,8 @@ let UserService = class UserService {
 };
 UserService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [user_model_1.UserModel])
+    __metadata("design:paramtypes", [user_model_1.UserModel,
+        city_service_1.CityService])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

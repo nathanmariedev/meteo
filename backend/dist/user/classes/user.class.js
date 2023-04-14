@@ -20,7 +20,7 @@ __decorate([
     (0, class_validator_1.IsUUID)(),
     (0, swagger_1.ApiProperty)(),
     (0, typeorm_1.Column)({ name: 'userId' }),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], User.prototype, "userId", void 0);
 __decorate([
     (0, class_validator_1.IsEmail)(),
@@ -38,7 +38,7 @@ __decorate([
 ], User.prototype, "password", void 0);
 __decorate([
     (0, typeorm_1.Column)({ name: 'mainCity' }),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], User.prototype, "mainCity", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)({ name: 'user' })

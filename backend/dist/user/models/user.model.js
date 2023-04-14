@@ -20,7 +20,8 @@ const user_class_1 = require("../classes/user.class");
 const knex_1 = require("knex");
 const fs_1 = require("fs");
 const path = require("path");
-const class_transformer_1 = require("class-transformer");
+const user_with_main_city_dto_1 = require("../dto/user-with-main-city.dto");
+const city_class_1 = require("./../../city/classes/city.class");
 const sqlDir = path.join(__dirname, '/sql');
 let UserModel = class UserModel extends basic_crud_model_1.BasicCrudModel {
     constructor(pg) {
@@ -40,7 +41,19 @@ let UserModel = class UserModel extends basic_crud_model_1.BasicCrudModel {
     async findOneById(userId) {
         const file = await fs_1.promises.readFile(`${sqlDir}/findById.sql`);
         const req = await this.pg.raw(file.toString(), [userId]);
-        return req.rows.length > 0 ? (0, class_transformer_1.plainToClass)(user_class_1.User, req.rows[0]) : null;
+        let data = req.rows[0];
+        let mainCity = new city_class_1.City({
+            insee: data.insee,
+            cp: data.cp,
+            name: data.name
+        });
+        let user = new user_with_main_city_dto_1.UserWithMainCity({
+            userId: data.userId,
+            userName: data.userName,
+            password: data.password,
+            mainCity: mainCity
+        });
+        return req.rows.length > 0 ? user : null;
     }
 };
 UserModel = __decorate([

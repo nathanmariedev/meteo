@@ -1,6 +1,6 @@
 export declare class User {
-    userId: string;
+    userId: number;
     userName: string;
     password: string;
-    mainCity: number;
+    mainCity: string;
 }

@@ -23,19 +23,15 @@ let CityController = class CityController {
     }
     async findById(insee) {
         console.log("City?");
-        const user = await this.cityService.findOneById(insee);
-        console.log("A");
-        console.log(user);
-        console.log("B");
-        return user;
+        const city = await this.cityService.findOneById(insee);
+        console.log(city);
+        return city;
     }
     async findByQuery(query) {
         console.log("City?");
-        const user = await this.cityService.findByQuery(query);
-        console.log("A");
-        console.log(user);
-        console.log("B");
-        return user;
+        const city = await this.cityService.findByQuery(query);
+        console.log(city);
+        return city;
     }
 };
 __decorate([

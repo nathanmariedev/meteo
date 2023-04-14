@@ -40,6 +40,7 @@ import { UserListResponse } from './dto/user-list-response.dto';
 import { UserResponse } from './dto/user-response.dto';
 import { IntValidatorPipe } from '../common/pipes/int-validator.pipe';
 import { UserModel } from './models/user.model';
+import { UserWithMainCity } from './dto/user-with-main-city.dto';
 
 @Controller('user')
 @ApiTags('User')
@@ -53,19 +54,12 @@ export class UserController {
   //GET -- Récupérer un tuilisateur grace à 'userId'
   @Get('/:id')
   @ApiNotFoundResponse({description : "Not Found"})
-  async findById(@Param('id') id:string):Promise<User>{
+  async findById(@Param('id') id:string):Promise<UserWithMainCity>{
     const user=await this.userService.findOneById(id)
-    console.log("A")
+    console.log("user")
     console.log(user)
-    console.log("B")
-  
     return user
   }
-  //Récupérer tous les utilisateurs
-  /*async returnAllUsers(): Promise<User[]> {
-    const users= await this.userService.findAll()
-    return users;
-  }*/
 
   @Post('/:id')
   @Post('brands/:brandId/template-photo')
