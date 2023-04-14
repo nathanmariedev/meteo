@@ -1,9 +1,7 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './database/database.module';
-import { EmailModule } from './email/email.module';
 import { NunjucksModule } from './nunjucks/nunjucks.module';
 import { UserModule } from './user/user.module';
 import { CityModule } from './city/city.module';
@@ -24,8 +22,6 @@ import { CityModule } from './city/city.module';
         },
       }),
     }),
-    AuthModule,
-    EmailModule,
     DatabaseModule,
     NunjucksModule,
     UserModule,
