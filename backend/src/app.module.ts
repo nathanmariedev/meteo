@@ -6,6 +6,7 @@ import { DatabaseModule } from './database/database.module';
 import { EmailModule } from './email/email.module';
 import { NunjucksModule } from './nunjucks/nunjucks.module';
 import { UserModule } from './user/user.module';
+import { CityModule } from './city/city.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UserModule } from './user/user.module';
     DatabaseModule,
     NunjucksModule,
     UserModule,
+    CityModule
   ],
   controllers: [],
   providers: [],

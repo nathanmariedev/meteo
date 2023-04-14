@@ -3,6 +3,9 @@ import { Search } from '../../common/classes/search.class';
 import { plainToClass } from 'class-transformer';
 
 export class BasicCrudModel<T> {
+  findMany(arg0: {}) {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     protected readonly pg: Knex,
     protected readonly tableName: string,

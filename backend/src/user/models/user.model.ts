@@ -3,6 +3,11 @@ import { PG_CONNECTION } from '../../database/database.constants';
 import { BasicCrudModel } from '../../common/models/basic-crud.model';
 import { User } from '../classes/user.class';
 import { Knex } from 'knex';
+import { promises as fs } from 'fs';
+import * as path from 'path';
+import { plainToClass } from 'class-transformer';
+
+const sqlDir = path.join(__dirname, '/sql');
 
 @Injectable()
 export class UserModel extends BasicCrudModel<User> {
@@ -12,23 +17,27 @@ export class UserModel extends BasicCrudModel<User> {
       'user', // Nom de la table
       [
         'userId',
-        'email',
+        'username',
         'password',
-        'isActive',
-        'lastLoginAt',
-        'createdAt',
-        'updatedAt',
-        'deletedAt',
+        'mainCity'
       ], // Liste des colonnes
       User, // Type de classe utilisé pour la transformation via 'plainToClass' dans basicCrudModel
     );
   }
 
-  // 👋
-  // async uneFonctionPlusSpecifique(userId: string): Promise<void> {
-  //   // Il est possible d'appeller les fonctions de BasicCrudModel via "super"
-  //   await super.findOne({ userId });
+  //Récupérer tous les utilisateurs de la BDD
+  async findAll():Promise<User[]>{
+    const file = await fs.readFile(`${sqlDir}/findAll.sql`);
+    const req = await this.pg.raw(file.toString());
+    return req.rows
+  }
 
-  //   return;
-  // }
+  //Récupérer un utilisateur grâce à 'userId'
+  async findOneById(userId:string):Promise<User>{
+    const file = await fs.readFile(`${sqlDir}/findById.sql`);
+    const req = await this.pg.raw(file.toString(), [userId]);
+    return req.rows.length > 0 ? plainToClass(User, req.rows[0]) : null;
+  } 
+  //DEMANDER SI IL EST POSSIBLE D'UTILISER findOne() du BasciCrudModel
+
 }
