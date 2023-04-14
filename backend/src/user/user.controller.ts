@@ -16,6 +16,7 @@ import {
   Delete,
   DefaultValuePipe,
   NotAcceptableException,
+  HttpException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import {
@@ -53,7 +54,7 @@ export class UserController {
 
   //GET -- Récupérer un tuilisateur grace à 'userId'
   @Get('/:id')
-  @ApiNotFoundResponse({description : "Not Found"})
+  
   async findById(@Param('id') id:string):Promise<UserWithMainCity>{
     const user=await this.userService.findOneById(id)
     console.log("user")

@@ -20,6 +20,11 @@ exports.seed = function (knex) {
           password: "password789",
           mainCity: "44109",
         },
+        {
+          userName: "LilZb",
+          password: "password667",
+          mainCity: "44035",
+        }
       ]);
     });
 };

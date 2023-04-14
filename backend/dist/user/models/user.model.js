@@ -41,6 +41,9 @@ let UserModel = class UserModel extends basic_crud_model_1.BasicCrudModel {
     async findOneById(userId) {
         const file = await fs_1.promises.readFile(`${sqlDir}/findById.sql`);
         const req = await this.pg.raw(file.toString(), [userId]);
+        if (req.rowCount == 0) {
+            throw new common_1.HttpException("User not found", common_1.HttpStatus.NO_CONTENT);
+        }
         let data = req.rows[0];
         let mainCity = new city_class_1.City({
             insee: data.insee,
@@ -53,7 +56,7 @@ let UserModel = class UserModel extends basic_crud_model_1.BasicCrudModel {
             password: data.password,
             mainCity: mainCity
         });
-        return req.rows.length > 0 ? user : null;
+        return user;
     }
 };
 UserModel = __decorate([

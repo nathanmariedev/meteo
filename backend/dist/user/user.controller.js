@@ -36,7 +36,6 @@ let UserController = class UserController {
 };
 __decorate([
     (0, common_1.Get)('/:id'),
-    (0, swagger_1.ApiNotFoundResponse)({ description: "Not Found" }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
