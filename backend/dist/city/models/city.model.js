@@ -28,11 +28,7 @@ const API_URL = 'https://api.meteo-concept.com/api/';
 const API_KEY = '1e3804f9ba78545c499d5dd4af53caf47fce3f32dd8d4096e003542c12f37144';
 let CityModel = class CityModel extends basic_crud_model_1.BasicCrudModel {
     constructor(pg) {
-        super(pg, 'city', [
-            'insee',
-            'cp',
-            'name'
-        ], city_class_1.City);
+        super(pg, 'city', ['insee', 'cp', 'name'], city_class_1.City);
         this.pg = pg;
     }
     async findAll() {
@@ -43,7 +39,19 @@ let CityModel = class CityModel extends basic_crud_model_1.BasicCrudModel {
     async findOneById(insee) {
         const file = await fs_1.promises.readFile(`${sqlDir}/findById.sql`);
         const req = await this.pg.raw(file.toString(), [insee]);
-        return req.rows;
+        if (req.rows.length == 1) {
+            return req.rows[0];
+        }
+        const response = await axios_1.default.get(`${API_URL}location/city`, {
+            params: {
+                token: API_KEY,
+                insee: insee,
+            },
+        });
+        const data = response.data.city;
+        const result = new city_class_1.City({ insee: data.insee, cp: data.cp, name: data.name });
+        const addCity = await this.pg.raw('INSERT INTO "city" ("insee", "cp", "name") VALUES (?, ?, ?);', [result.insee, result.cp, result.name]);
+        return result;
     }
     async findByQuery(query) {
         console.log(API_URL);
@@ -56,7 +64,7 @@ let CityModel = class CityModel extends basic_crud_model_1.BasicCrudModel {
         });
         const data = response.data.cities;
         console.log(data.length);
-        result = data.map(city => new city_class_1.City({ insee: city.insee, cp: city.cp, name: city.name }));
+        result = data.map((city) => new city_class_1.City({ insee: city.insee, cp: city.cp, name: city.name }));
         console.log(result);
         return result;
     }

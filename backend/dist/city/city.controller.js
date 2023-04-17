@@ -22,13 +22,13 @@ let CityController = class CityController {
         this.cityService = cityService;
     }
     async findById(insee) {
-        console.log("City?");
+        console.log('City?');
         const city = await this.cityService.findOneById(insee);
         console.log(city);
         return city;
     }
     async findByQuery(query) {
-        console.log("City?");
+        console.log('City?');
         const city = await this.cityService.findByQuery(query);
         console.log(city);
         return city;
@@ -36,7 +36,7 @@ let CityController = class CityController {
 };
 __decorate([
     (0, common_1.Get)('/:insee'),
-    (0, swagger_1.ApiNotFoundResponse)({ description: "Not Found" }),
+    (0, swagger_1.ApiNotFoundResponse)({ description: 'Not Found' }),
     __param(0, (0, common_1.Param)('insee')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
