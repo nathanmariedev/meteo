@@ -14,6 +14,7 @@ const database_module_1 = require("./database/database.module");
 const nunjucks_module_1 = require("./nunjucks/nunjucks.module");
 const user_module_1 = require("./user/user.module");
 const city_module_1 = require("./city/city.module");
+const favs_module_1 = require("./favs/favs.module");
 let AppModule = class AppModule {
 };
 AppModule = __decorate([
@@ -35,7 +36,8 @@ AppModule = __decorate([
             database_module_1.DatabaseModule,
             nunjucks_module_1.NunjucksModule,
             user_module_1.UserModule,
-            city_module_1.CityModule
+            city_module_1.CityModule,
+            favs_module_1.FavsModule,
         ],
         controllers: [],
         providers: [],

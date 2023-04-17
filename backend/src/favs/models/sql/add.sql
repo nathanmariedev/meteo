@@ -1,0 +1,1 @@
+INSERT INTO "favs"("insee", "userId") VALUES (?,?);
