@@ -1,0 +1,1 @@
+INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?,?,?);

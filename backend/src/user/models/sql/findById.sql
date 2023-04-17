@@ -1,1 +1,4 @@
-SELECT * FROM "user" WHERE "userId" = ?;
+SELECT * 
+FROM "user"
+JOIN "city" on "mainCity"="insee" 
+WHERE "userId" = ?;

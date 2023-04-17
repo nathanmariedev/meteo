@@ -50,12 +50,17 @@ export class CityController {
   @ApiNotFoundResponse({description : "Not Found"})
   async findById(@Param('insee') insee:string):Promise<City>{
     console.log("City?")
-    const user=await this.cityService.findOneById(insee)
-    console.log("A")
-    console.log(user)
-    console.log("B")
-  
-    return user
+    const city=await this.cityService.findOneById(insee)
+    console.log(city)
+    return city
+  }
+
+  @Get('/find/:query')
+  async findByQuery(@Param('query') query:string):Promise<City[]>{
+    console.log("City?")
+    const city=await this.cityService.findByQuery(query)
+    console.log(city)
+    return city
   }
   //Récupérer tous les utilisateurs
   /*async returnAllUsers(): Promise<User[]> {

@@ -5,6 +5,8 @@ import { BCryptService } from '../core/crypto/bcrypt.service';
 import { City } from './classes/city.class';
 import { CityModel } from './models/city.model';
 
+
+
 @Injectable()
 export class CityService {
   constructor(
@@ -18,6 +20,10 @@ export class CityService {
   async findOneById(insee:string):Promise<City>{
     return this.cityModel.findOneById(insee)
     //return this.cityModel.findOne({ insee:insee })
+  }
+
+  async findByQuery(query:string):Promise<City[]>{
+    return this.cityModel.findByQuery(query)
   }
 
 }
