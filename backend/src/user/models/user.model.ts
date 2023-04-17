@@ -68,9 +68,6 @@ export class UserModel extends BasicCrudModel<User> {
 
   async addOne(user:CreateUserDto):Promise<CreateUserDto>{
     const result = await this.pg.raw('INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?, ?, ?);', [user.userName, user.password, user.mainCity]);
-    //await this.pg('user').insert(user);
-    //const file = await fs.readFile(`${sqlDir}/addOne.sql`);
-    //const req = await this.pg.raw(file.toString(), [user.userName, user.password, user.mainCity]);
   
     return user
   }
