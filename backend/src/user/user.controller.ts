@@ -29,6 +29,7 @@ import {
   ApiNotFoundResponse,
   ApiNoContentResponse,
   ApiBearerAuth,
+  ApiResponse,
 } from '@nestjs/swagger';
 import { EnumValidatorPipe } from '../common/pipes/enum-validator.pipe';
 import { User } from './classes/user.class';
@@ -62,10 +63,10 @@ export class UserController {
     return user
   }
 
-  @Post('/:id')
-  @Post('brands/:brandId/template-photo')
-  @UseGuards(AuthGuard('access')) // Regarder et demander fonctionnement
-  async add(@Body() userToAdd: User):Promise<User>{
+  @Post()
+  //@UseGuards(AuthGuard('access')) // Regarder et demander fonctionnement
+  async add(@Body() userToAdd: CreateUserDto):Promise<CreateUserDto>{
+    console.log(`user to add : ${userToAdd.userName}, ${userToAdd.password}, ${userToAdd.mainCity}// type : ${userToAdd}`)
     const user= await this.userService.add(userToAdd)
     return user
   }

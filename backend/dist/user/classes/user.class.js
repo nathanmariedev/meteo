@@ -17,13 +17,11 @@ let User = class User {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
-    (0, class_validator_1.IsUUID)(),
     (0, swagger_1.ApiProperty)(),
     (0, typeorm_1.Column)({ name: 'userId' }),
     __metadata("design:type", Number)
 ], User.prototype, "userId", void 0);
 __decorate([
-    (0, class_validator_1.IsEmail)(),
     (0, class_validator_1.MaxLength)(42),
     (0, swagger_1.ApiProperty)(),
     (0, typeorm_1.Column)({ name: 'userName' }),
@@ -37,6 +35,8 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
+    (0, class_validator_1.Length)(5),
+    (0, swagger_1.ApiProperty)(),
     (0, typeorm_1.Column)({ name: 'mainCity' }),
     __metadata("design:type", String)
 ], User.prototype, "mainCity", void 0);

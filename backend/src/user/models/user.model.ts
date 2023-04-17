@@ -12,6 +12,7 @@ import { use } from 'passport';
 import { UserWithMainCity } from '../dto/user-with-main-city.dto';
 import { City } from './../../city/classes/city.class';
 import { isSet } from 'util/types';
+import { CreateUserDto } from '../dto/create-user.dto';
 
 const sqlDir = path.join(__dirname, '/sql');
 
@@ -64,5 +65,15 @@ export class UserModel extends BasicCrudModel<User> {
     
   } 
   //DEMANDER SI IL EST POSSIBLE D'UTILISER findOne() du BasciCrudModel
+
+  async addOne(user:CreateUserDto):Promise<CreateUserDto>{
+    const result = await this.pg.raw('INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?, ?, ?);', [user.userName, user.password, user.mainCity]);
+    //await this.pg('user').insert(user);
+    //const file = await fs.readFile(`${sqlDir}/addOne.sql`);
+    //const req = await this.pg.raw(file.toString(), [user.userName, user.password, user.mainCity]);
+  
+    return user
+  }
+
 
 }

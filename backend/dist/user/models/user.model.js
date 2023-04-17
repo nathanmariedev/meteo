@@ -58,6 +58,10 @@ let UserModel = class UserModel extends basic_crud_model_1.BasicCrudModel {
         });
         return user;
     }
+    async addOne(user) {
+        const result = await this.pg.raw('INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?, ?, ?);', [user.userName, user.password, user.mainCity]);
+        return user;
+    }
 };
 UserModel = __decorate([
     (0, common_1.Injectable)(),

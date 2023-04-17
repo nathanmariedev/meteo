@@ -26,7 +26,7 @@ let UserService = class UserService {
         return user;
     }
     async add(user) {
-        return this.userModel.create(user);
+        return this.userModel.addOne(user);
     }
 };
 UserService = __decorate([

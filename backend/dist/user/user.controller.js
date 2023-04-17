@@ -14,9 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = require("@nestjs/common");
-const passport_1 = require("@nestjs/passport");
 const swagger_1 = require("@nestjs/swagger");
-const user_class_1 = require("./classes/user.class");
+const create_user_dto_1 = require("./dto/create-user.dto");
 const user_service_1 = require("./user.service");
 const response_interceptor_1 = require("../response.interceptor");
 let UserController = class UserController {
@@ -30,6 +29,7 @@ let UserController = class UserController {
         return user;
     }
     async add(userToAdd) {
+        console.log(`user to add : ${userToAdd.userName}, ${userToAdd.password}, ${userToAdd.mainCity}// type : ${userToAdd}`);
         const user = await this.userService.add(userToAdd);
         return user;
     }
@@ -42,12 +42,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "findById", null);
 __decorate([
-    (0, common_1.Post)('/:id'),
-    (0, common_1.Post)('brands/:brandId/template-photo'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('access')),
+    (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [user_class_1.User]),
+    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "add", null);
 UserController = __decorate([
