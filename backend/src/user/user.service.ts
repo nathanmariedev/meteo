@@ -9,22 +9,18 @@ import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(
-    private readonly userModel: UserModel,
-    private readonly cityService:CityService
-  ) {}
+  constructor(private readonly userModel: UserModel, private readonly cityService: CityService) {}
 
-  async findAll():Promise<User[]>{
-    return this.userModel.findAll()
+  async findAll(): Promise<User[]> {
+    return this.userModel.findAll();
   }
 
   async findOneById(userId: string): Promise<UserWithMainCity> {
-    let user= this.userModel.findOneById( userId );
-    return user
+    const user = this.userModel.findOneById(userId);
+    return user;
   }
 
-  async add(user:CreateUserDto):Promise<CreateUserDto>{
-    return this.userModel.addOne(user)
+  async add(user: CreateUserDto): Promise<CreateUserDto> {
+    return this.userModel.addOne(user);
   }
-
 }

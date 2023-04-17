@@ -22,7 +22,7 @@ let UserService = class UserService {
         return this.userModel.findAll();
     }
     async findOneById(userId) {
-        let user = this.userModel.findOneById(userId);
+        const user = this.userModel.findOneById(userId);
         return user;
     }
     async add(user) {
@@ -31,8 +31,7 @@ let UserService = class UserService {
 };
 UserService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [user_model_1.UserModel,
-        city_service_1.CityService])
+    __metadata("design:paramtypes", [user_model_1.UserModel, city_service_1.CityService])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

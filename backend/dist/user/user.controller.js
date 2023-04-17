@@ -24,7 +24,7 @@ let UserController = class UserController {
     }
     async findById(id) {
         const user = await this.userService.findOneById(id);
-        console.log("user");
+        console.log('user');
         console.log(user);
         return user;
     }

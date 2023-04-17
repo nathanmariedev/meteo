@@ -50,25 +50,24 @@ import { UserWithMainCity } from './dto/user-with-main-city.dto';
 @ApiBadRequestResponse({ description: 'Bad request' })
 @ApiUnauthorizedResponse({ description: 'Not authorized' })
 export class UserController {
-
   constructor(private readonly userService: UserService) {}
 
   //GET -- Récupérer un tuilisateur grace à 'userId'
   @Get('/:id')
-  
-  async findById(@Param('id') id:string):Promise<UserWithMainCity>{
-    const user=await this.userService.findOneById(id)
-    console.log("user")
-    console.log(user)
-    return user
+  async findById(@Param('id') id: string): Promise<UserWithMainCity> {
+    const user = await this.userService.findOneById(id);
+    console.log('user');
+    console.log(user);
+    return user;
   }
 
   @Post()
   //@UseGuards(AuthGuard('access')) // Regarder et demander fonctionnement
-  async add(@Body() userToAdd: CreateUserDto):Promise<CreateUserDto>{
-    console.log(`user to add : ${userToAdd.userName}, ${userToAdd.password}, ${userToAdd.mainCity}// type : ${userToAdd}`)
-    const user= await this.userService.add(userToAdd)
-    return user
+  async add(@Body() userToAdd: CreateUserDto): Promise<CreateUserDto> {
+    console.log(
+      `user to add : ${userToAdd.userName}, ${userToAdd.password}, ${userToAdd.mainCity}// type : ${userToAdd}`,
+    );
+    const user = await this.userService.add(userToAdd);
+    return user;
   }
-
 }

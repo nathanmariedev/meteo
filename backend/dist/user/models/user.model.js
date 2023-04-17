@@ -25,12 +25,7 @@ const city_class_1 = require("./../../city/classes/city.class");
 const sqlDir = path.join(__dirname, '/sql');
 let UserModel = class UserModel extends basic_crud_model_1.BasicCrudModel {
     constructor(pg) {
-        super(pg, 'user', [
-            'userId',
-            'username',
-            'password',
-            'mainCity'
-        ], user_class_1.User);
+        super(pg, 'user', ['userId', 'username', 'password', 'mainCity'], user_class_1.User);
         this.pg = pg;
     }
     async findAll() {
@@ -42,19 +37,19 @@ let UserModel = class UserModel extends basic_crud_model_1.BasicCrudModel {
         const file = await fs_1.promises.readFile(`${sqlDir}/findById.sql`);
         const req = await this.pg.raw(file.toString(), [userId]);
         if (req.rowCount == 0) {
-            throw new common_1.HttpException("User not found", common_1.HttpStatus.NO_CONTENT);
+            throw new common_1.HttpException('User not found', common_1.HttpStatus.NO_CONTENT);
         }
-        let data = req.rows[0];
-        let mainCity = new city_class_1.City({
+        const data = req.rows[0];
+        const mainCity = new city_class_1.City({
             insee: data.insee,
             cp: data.cp,
-            name: data.name
+            name: data.name,
         });
-        let user = new user_with_main_city_dto_1.UserWithMainCity({
+        const user = new user_with_main_city_dto_1.UserWithMainCity({
             userId: data.userId,
             userName: data.userName,
             password: data.password,
-            mainCity: mainCity
+            mainCity: mainCity,
         });
         return user;
     }
