@@ -37,7 +37,6 @@ export class CityModel extends BasicCrudModel<City> {
         },
       });
       const data = response.data.city;
-      console.log('data found', data);
       if (data !== null) {
         const result = new City({ insee: data.insee, cp: data.cp, name: data.name });
         await this.pg.raw('INSERT INTO "city" ("insee", "cp", "name") VALUES (?, ?, ?);', [
