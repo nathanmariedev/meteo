@@ -37,7 +37,7 @@ let UserModel = class UserModel extends basic_crud_model_1.BasicCrudModel {
         const file = await fs_1.promises.readFile(`${sqlDir}/findById.sql`);
         const req = await this.pg.raw(file.toString(), [userId]);
         if (req.rowCount == 0) {
-            throw new common_1.HttpException('User not found', common_1.HttpStatus.NO_CONTENT);
+            throw new common_1.NotFoundException(`User ${userId} doesn't exists`);
         }
         const data = req.rows[0];
         const mainCity = new city_class_1.City({

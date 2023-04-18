@@ -22,6 +22,8 @@ let CityController = class CityController {
         this.cityService = cityService;
     }
     async findById(insee) {
+        console.log(process.env.API_URL);
+        console.log(process.env.API_KEY);
         const city = await this.cityService.findOneById(insee);
         return city;
     }

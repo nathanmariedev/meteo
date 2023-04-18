@@ -22,8 +22,7 @@ let UserService = class UserService {
         return this.userModel.findAll();
     }
     async findOneById(userId) {
-        const user = this.userModel.findOneById(userId);
-        return user;
+        return this.userModel.findOneById(userId);
     }
     async add(user) {
         return this.userModel.addOne(user);

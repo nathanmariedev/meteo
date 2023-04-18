@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PG_CONNECTION } from '../../database/database.constants';
 import { BasicCrudModel } from '../../common/models/basic-crud.model';
 import { User } from '../classes/user.class';
@@ -26,7 +26,7 @@ export class UserModel extends BasicCrudModel<User> {
   async findAll(): Promise<User[]> {
     const file = await fs.readFile(`${sqlDir}/findAll.sql`);
     const req = await this.pg.raw(file.toString());
-    return req.rows;
+    return req.rows as User[];
   }
 
   //Récupérer un utilisateur grâce à 'userId'
@@ -34,7 +34,7 @@ export class UserModel extends BasicCrudModel<User> {
     const file = await fs.readFile(`${sqlDir}/findById.sql`);
     const req = await this.pg.raw(file.toString(), [userId]);
     if (req.rowCount == 0) {
-      throw new HttpException('User not found', HttpStatus.NO_CONTENT);
+      throw new NotFoundException(`User ${userId} doesn't exists`);
     }
     const data = req.rows[0];
     const mainCity = new City({
@@ -48,7 +48,7 @@ export class UserModel extends BasicCrudModel<User> {
       password: data.password,
       mainCity: mainCity,
     });
-    return user;
+    return user as UserWithMainCity;
   }
 
   async addOne(user: CreateUserDto): Promise<CreateUserDto> {
@@ -56,6 +56,6 @@ export class UserModel extends BasicCrudModel<User> {
       'INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?, ?, ?);',
       [user.userName, user.password, user.mainCity],
     );
-    return user;
+    return user as CreateUserDto;
   }
 }

@@ -23,12 +23,10 @@ let UserController = class UserController {
         this.userService = userService;
     }
     async findById(id) {
-        const user = await this.userService.findOneById(id);
-        return user;
+        return await this.userService.findOneById(id);
     }
     async add(userToAdd) {
-        const user = await this.userService.add(userToAdd);
-        return user;
+        return await this.userService.add(userToAdd);
     }
 };
 __decorate([

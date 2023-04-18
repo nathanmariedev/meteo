@@ -16,13 +16,11 @@ export class UserController {
   //GET -- Récupérer un utilisateur grace à 'userId'
   @Get('/:id')
   async findById(@Param('id') id: string): Promise<UserWithMainCity> {
-    const user = await this.userService.findOneById(id);
-    return user;
+    return await this.userService.findOneById(id);
   }
 
   @Post()
   async add(@Body() userToAdd: CreateUserDto): Promise<CreateUserDto> {
-    const user = await this.userService.add(userToAdd);
-    return user;
+    return await this.userService.add(userToAdd);
   }
 }

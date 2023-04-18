@@ -14,8 +14,7 @@ export class UserService {
   }
 
   async findOneById(userId: string): Promise<UserWithMainCity> {
-    const user = this.userModel.findOneById(userId);
-    return user;
+    return this.userModel.findOneById(userId);
   }
 
   async add(user: CreateUserDto): Promise<CreateUserDto> {

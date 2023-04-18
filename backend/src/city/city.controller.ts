@@ -22,6 +22,8 @@ export class CityController {
   @ApiResponse({ status: 201, description: 'The record has been successfully created.' })
   @ApiResponse({ status: 403, description: 'The record has been successfully created.' })
   async findById(@Param('insee') insee: string): Promise<City> {
+    console.log(process.env.API_URL);
+    console.log(process.env.API_KEY);
     const city = await this.cityService.findOneById(insee);
     return city;
   }
