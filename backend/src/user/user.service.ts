@@ -9,11 +9,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 export class UserService {
   constructor(private readonly userModel: UserModel, private readonly cityService: CityService) {}
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.findAll();
-  }
-
-  async findOneById(userId: string): Promise<UserWithMainCity> {
+  async findOneById(userId: number): Promise<UserWithMainCity> {
     return this.userModel.findOneById(userId);
   }
 

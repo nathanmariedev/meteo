@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PG_CONNECTION } from '../../database/database.constants';
 import { BasicCrudModel } from '../../common/models/basic-crud.model';
 import { User } from '../classes/user.class';
@@ -23,7 +23,10 @@ export class UserModel extends BasicCrudModel<User> {
   }
 
   //Récupérer un utilisateur grâce à 'userId'
-  async findOneById(userId: string): Promise<UserWithMainCity> {
+  async findOneById(userId: number): Promise<UserWithMainCity> {
+    if (isNaN(userId)) {
+      throw new BadRequestException(`Wrong format`);
+    }
     const file = await fs.readFile(`${sqlDir}/findById.sql`);
     const req = await this.pg.raw(file.toString(), [userId]);
     if (req.rowCount === 0) {
@@ -45,9 +48,11 @@ export class UserModel extends BasicCrudModel<User> {
   }
 
   async addOne(user: CreateUserDto): Promise<CreateUserDto> {
-    const result = await this.pg.raw(
+    await this.pg.raw(
       'INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?, ?, ?);',
-      [user.userName, user.password, user.mainCity],
+      user.userName,
+      user.password,
+      user.mainCity,
     );
     return user as CreateUserDto;
   }

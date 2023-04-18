@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PG_CONNECTION } from '../../database/database.constants';
 import { BasicCrudModel } from '../../common/models/basic-crud.model';
 import { Knex } from 'knex';
@@ -20,7 +20,10 @@ export class CityModel extends BasicCrudModel<City> {
     );
   }
 
-  async findOneById(insee: string): Promise<City> {
+  async findOneById(insee: number): Promise<City> {
+    if (insee < 10000 || insee > 99999) {
+      throw new BadRequestException(`Wrong insee format`);
+    }
     const file = await fs.readFile(`${sqlDir}/findById.sql`);
     const req = await this.pg.raw(file.toString(), [insee]);
     if (req.rows.length === 1) {
@@ -51,16 +54,20 @@ export class CityModel extends BasicCrudModel<City> {
   }
 
   async findByQuery(query: string): Promise<City[]> {
-    const response = await axios.get(`${process.env.API_URL}location/cities`, {
-      params: {
-        token: process.env.API_KEY,
-        search: query,
-      },
-    });
-    const result = response.data.cities.map(
-      (city: { insee: any; cp: any; name: any }) =>
-        new City({ insee: city.insee, cp: city.cp, name: city.name }),
-    );
-    return result as City[];
+    try {
+      const response = await axios.get(`${process.env.API_URL}location/cities`, {
+        params: {
+          token: process.env.API_KEY,
+          search: query,
+        },
+      });
+      const result = response.data.cities.map(
+        (city: { insee: any; cp: any; name: any }) =>
+          new City({ insee: city.insee, cp: city.cp, name: city.name }),
+      );
+      return result as City[];
+    } catch {
+      throw new BadRequestException(`Something went wrong`);
+    }
   }
 }

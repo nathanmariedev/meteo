@@ -1,5 +1,10 @@
 import { Body, Controller, Get, Post, Param, UseInterceptors } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiUnauthorizedResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiUnauthorizedResponse,
+  ApiTags,
+  ApiResponse,
+} from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { ResponseInterceptor } from '../response.interceptor';
@@ -15,11 +20,14 @@ export class UserController {
 
   //GET -- Récupérer un utilisateur grace à 'userId'
   @Get('/:id')
-  async findById(@Param('id') id: string): Promise<UserWithMainCity> {
+  @ApiResponse({ status: 200, description: `User found` })
+  @ApiResponse({ status: 404, description: `User not found` })
+  async findById(@Param('id') id: number): Promise<UserWithMainCity> {
     return await this.userService.findOneById(id);
   }
 
   @Post()
+  @ApiResponse({ status: 201, description: 'User succesfully added' })
   async add(@Body() userToAdd: CreateUserDto): Promise<CreateUserDto> {
     return await this.userService.add(userToAdd);
   }
