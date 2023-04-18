@@ -1,20 +1,13 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PG_CONNECTION } from '../../database/database.constants';
 import { BasicCrudModel } from '../../common/models/basic-crud.model';
 import { Knex } from 'knex';
 import { promises as fs } from 'fs';
 import * as path from 'path';
-import { classToPlain, plainToClass } from 'class-transformer';
 import { City } from '../classes/city.class';
-import { validate } from 'class-validator';
-import { array } from 'joi';
 import axios from 'axios';
-import * as dotenv from 'dotenv'
 
-dotenv.config()
 const sqlDir = path.join(__dirname, '/sql');
-const API_URL='https://api.meteo-concept.com/api/'
-const API_KEY='1e3804f9ba78545c499d5dd4af53caf47fce3f32dd8d4096e003542c12f37144'
 
 @Injectable()
 export class CityModel extends BasicCrudModel<City> {
@@ -22,42 +15,58 @@ export class CityModel extends BasicCrudModel<City> {
     super(
       pg, // Knex provider instance
       'city', // Nom de la table
-      [
-        'insee',
-        'cp',
-        'name'
-      ], // Liste des colonnes
+      ['insee', 'cp', 'name'], // Liste des colonnes
       City, // Type de classe utilisé pour la transformation via 'plainToClass' dans basicCrudModel
     );
   }
 
-  //Récupérer tous les utilisateurs de la BDD
-  async findAll():Promise<City[]>{
-    const file = await fs.readFile(`${sqlDir}/findAll.sql`);
-    const req = await this.pg.raw(file.toString());
-    return req.rows
-  }
-
-  async findOneById(insee:string):Promise<City>{
+  async findOneById(insee: number): Promise<City> {
+    if (insee < 10000 || insee > 99999) {
+      throw new BadRequestException(`Wrong insee format`);
+    }
     const file = await fs.readFile(`${sqlDir}/findById.sql`);
     const req = await this.pg.raw(file.toString(), [insee]);
-    return req.rows
+    if (req.rows.length === 1) {
+      return req.rows[0] as City;
+    }
+    try {
+      const response = await axios.get(`${process.env.API_URL}location/city`, {
+        params: {
+          token: process.env.API_KEY,
+          insee: insee,
+        },
+      });
+      const data = response.data.city;
+      if (data !== null) {
+        const result = new City({ insee: data.insee, cp: data.cp, name: data.name });
+        await this.pg.raw('INSERT INTO "city" ("insee", "cp", "name") VALUES (?, ?, ?);', [
+          result.insee,
+          result.cp,
+          result.name,
+        ]);
+        return result as City;
+      }
+      return null;
+    } catch {
+      throw new NotFoundException(`The city you're looking for can't be found`);
+    }
   }
 
-  async findByQuery(query:string):Promise<City[]>{
-    console.log(API_URL)
-    let result:Array<City>
-    const response = await axios.get(`${API_URL}location/cities`, {
-      params: {
-        token: API_KEY,
-        search: query,
-      },
-    });
-    const data = response.data.cities;
-    console.log(data.length)
-    result=data.map(city => new City({insee:city.insee,cp:city.cp,name:city.name}) )
-    console.log(result)
-    return result
+  async findByQuery(query: string): Promise<City[]> {
+    try {
+      const response = await axios.get(`${process.env.API_URL}location/cities`, {
+        params: {
+          token: process.env.API_KEY,
+          search: query,
+        },
+      });
+      const result = response.data.cities.map(
+        (city: { insee: any; cp: any; name: any }) =>
+          new City({ insee: city.insee, cp: city.cp, name: city.name }),
+      );
+      return result as City[];
+    } catch {
+      throw new BadRequestException(`Something went wrong`);
+    }
   }
-
 }

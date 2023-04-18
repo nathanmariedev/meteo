@@ -1,29 +1,16 @@
 import { Injectable } from '@nestjs/common';
-
-import { Search } from './../common/classes/search.class';
-import { BCryptService } from '../core/crypto/bcrypt.service';
 import { City } from './classes/city.class';
 import { CityModel } from './models/city.model';
 
-
-
 @Injectable()
 export class CityService {
-  constructor(
-    private readonly cityModel: CityModel,
-  ) {}
+  constructor(private readonly cityModel: CityModel) {}
 
-  async findAll():Promise<City[]>{
-    return this.cityModel.findAll()
+  async findOneById(insee: number): Promise<City> {
+    return this.cityModel.findOneById(insee);
   }
 
-  async findOneById(insee:string):Promise<City>{
-    return this.cityModel.findOneById(insee)
-    //return this.cityModel.findOne({ insee:insee })
+  async findByQuery(query: string): Promise<City[]> {
+    return this.cityModel.findByQuery(query);
   }
-
-  async findByQuery(query:string):Promise<City[]>{
-    return this.cityModel.findByQuery(query)
-  }
-
 }

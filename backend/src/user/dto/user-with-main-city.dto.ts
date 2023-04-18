@@ -1,24 +1,22 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { City } from "./../../city/classes/city.class";
-import { use } from "passport";
+import { ApiProperty } from '@nestjs/swagger';
+import { City } from './../../city/classes/city.class';
 
 export class UserWithMainCity {
-    constructor(user:{ userId: number, userName: string, password: string, mainCity:City }){
-        this.userId=user.userId
-        this.userName=user.userName
-        this.password=user.password
-        this.mainCity=user.mainCity
-    }
-    @ApiProperty()
-    userId:number
+  constructor(user: { userId: number; userName: string; password: string; mainCity: City }) {
+    this.userId = user.userId;
+    this.userName = user.userName;
+    this.password = user.password;
+    this.mainCity = user.mainCity;
+  }
+  @ApiProperty()
+  userId: number;
 
-    @ApiProperty()
-    userName:string
+  @ApiProperty()
+  userName: string;
 
-    @ApiProperty()
-    password:string
+  @ApiProperty()
+  password: string;
 
-    @ApiProperty({type : () => City})
-    mainCity:City
-
+  @ApiProperty({ type: () => City })
+  mainCity: City;
 }
