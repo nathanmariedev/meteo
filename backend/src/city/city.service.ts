@@ -6,13 +6,8 @@ import { CityModel } from './models/city.model';
 export class CityService {
   constructor(private readonly cityModel: CityModel) {}
 
-  async findAll(): Promise<City[]> {
-    return this.cityModel.findAll();
-  }
-
-  async findOneById(insee: string): Promise<City> {
+  async findOneById(insee: number): Promise<City> {
     return this.cityModel.findOneById(insee);
-    //return this.cityModel.findOne({ insee:insee })
   }
 
   async findByQuery(query: string): Promise<City[]> {

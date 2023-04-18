@@ -3,7 +3,7 @@ import {
   ApiBadRequestResponse,
   ApiUnauthorizedResponse,
   ApiTags,
-  ApiNotFoundResponse,
+  ApiResponse,
 } from '@nestjs/swagger';
 import { ResponseInterceptor } from '../response.interceptor';
 import { City } from './classes/city.class';
@@ -17,26 +17,18 @@ import { CityService } from './city.service';
 export class CityController {
   constructor(private readonly cityService: CityService) {}
 
-  //GET -- Récupérer un tuilisateur grace à 'userId'
   @Get('/:insee')
-  @ApiNotFoundResponse({ description: 'Not Found' })
-  async findById(@Param('insee') insee: string): Promise<City> {
-    console.log('City?');
+  @ApiResponse({ status: 200, description: 'City succesfully found' })
+  @ApiResponse({ status: 404, description: 'City not found' })
+  async findById(@Param('insee') insee: number): Promise<City> {
     const city = await this.cityService.findOneById(insee);
-    console.log(city);
     return city;
   }
 
   @Get('/find/:query')
+  @ApiResponse({ status: 200, description: 'request succesfully sent' })
   async findByQuery(@Param('query') query: string): Promise<City[]> {
-    console.log('City?');
     const city = await this.cityService.findByQuery(query);
-    console.log(city);
     return city;
   }
-  //Récupérer tous les utilisateurs
-  /*async returnAllUsers(): Promise<User[]> {
-    const users= await this.userService.findAll()
-    return users;
-  }*/
 }

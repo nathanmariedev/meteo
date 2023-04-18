@@ -1,7 +1,6 @@
-## Hello !
+# Météo projet
 
 Voici un "meteo" pour Nestjs en TypeScript
-Plus complet que le scaffolding original que propose le CLI.
 
 Il contient :
 - Knex (pg) pour la connexion à la base de donnée et la gestion des migrations/seeds
