@@ -31,6 +31,7 @@ export class CityModel extends BasicCrudModel<City> {
   }
 
   async findOneById(insee: string): Promise<City> {
+    console.log(API_KEY)
     const file = await fs.readFile(`${sqlDir}/findById.sql`);
     const req = await this.pg.raw(file.toString(), [insee]);
     if (req.rows.length == 1) {
