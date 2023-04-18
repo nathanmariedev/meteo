@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PG_CONNECTION } from '../../database/database.constants';
 import { BasicCrudModel } from '../../common/models/basic-crud.model';
 import { Knex } from 'knex';
@@ -20,33 +20,34 @@ export class CityModel extends BasicCrudModel<City> {
     );
   }
 
-  //Récupérer tous les utilisateurs de la BDD
-  async findAll(): Promise<City[]> {
-    const file = await fs.readFile(`${sqlDir}/findAll.sql`);
-    const req = await this.pg.raw(file.toString());
-    return req.rows as City[];
-  }
-
   async findOneById(insee: string): Promise<City> {
     const file = await fs.readFile(`${sqlDir}/findById.sql`);
     const req = await this.pg.raw(file.toString(), [insee]);
     if (req.rows.length === 1) {
       return req.rows[0] as City;
     }
-    const response = await axios.get(`${process.env.API_URL}location/city`, {
-      params: {
-        token: process.env.API_KEY,
-        insee: insee,
-      },
-    });
-    const data = response.data.city;
-    const result = new City({ insee: data.insee, cp: data.cp, name: data.name });
-    await this.pg.raw('INSERT INTO "city" ("insee", "cp", "name") VALUES (?, ?, ?);', [
-      result.insee,
-      result.cp,
-      result.name,
-    ]);
-    return result as City;
+    try {
+      const response = await axios.get(`${process.env.API_URL}location/city`, {
+        params: {
+          token: process.env.API_KEY,
+          insee: insee,
+        },
+      });
+      const data = response.data.city;
+      console.log('data found', data);
+      if (data !== null) {
+        const result = new City({ insee: data.insee, cp: data.cp, name: data.name });
+        await this.pg.raw('INSERT INTO "city" ("insee", "cp", "name") VALUES (?, ?, ?);', [
+          result.insee,
+          result.cp,
+          result.name,
+        ]);
+        return result as City;
+      }
+      return null;
+    } catch {
+      throw new NotFoundException(`The city you're looking for can't be found`);
+    }
   }
 
   async findByQuery(query: string): Promise<City[]> {

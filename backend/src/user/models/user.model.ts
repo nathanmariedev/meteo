@@ -22,13 +22,6 @@ export class UserModel extends BasicCrudModel<User> {
     );
   }
 
-  //Récupérer tous les utilisateurs de la BDD
-  async findAll(): Promise<User[]> {
-    const file = await fs.readFile(`${sqlDir}/findAll.sql`);
-    const req = await this.pg.raw(file.toString());
-    return req.rows as User[];
-  }
-
   //Récupérer un utilisateur grâce à 'userId'
   async findOneById(userId: string): Promise<UserWithMainCity> {
     const file = await fs.readFile(`${sqlDir}/findById.sql`);
