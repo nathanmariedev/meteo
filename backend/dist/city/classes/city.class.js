@@ -21,16 +21,19 @@ class City {
 }
 __decorate([
     (0, class_validator_1.Length)(5),
-    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({ type: 'string' }),
     __metadata("design:type", String)
 ], City.prototype, "insee", void 0);
 __decorate([
     (0, class_validator_1.Length)(5),
-    (0, swagger_1.ApiProperty)(),
+    (0, class_validator_1.IsString)(),
+    (0, swagger_1.ApiProperty)({ type: 'string' }),
     __metadata("design:type", String)
 ], City.prototype, "cp", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)(),
+    (0, swagger_1.ApiProperty)({ type: 'string' }),
+    (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], City.prototype, "name", void 0);
 exports.City = City;

@@ -17,26 +17,30 @@ let User = class User {
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)(),
-    (0, swagger_1.ApiProperty)(),
+    (0, swagger_1.ApiProperty)({ type: 'number', format: 'uuid' }),
+    (0, class_validator_1.IsNumber)(),
     (0, typeorm_1.Column)({ name: 'userId' }),
     __metadata("design:type", Number)
 ], User.prototype, "userId", void 0);
 __decorate([
     (0, class_validator_1.MaxLength)(42),
-    (0, swagger_1.ApiProperty)(),
+    (0, swagger_1.ApiProperty)({ type: 'string' }),
+    (0, class_validator_1.IsString)(),
     (0, typeorm_1.Column)({ name: 'userName' }),
     __metadata("design:type", String)
 ], User.prototype, "userName", void 0);
 __decorate([
     (0, class_validator_1.MinLength)(8),
     (0, class_validator_1.MaxLength)(32),
-    (0, swagger_1.ApiProperty)(),
+    (0, swagger_1.ApiProperty)({ type: 'string' }),
+    (0, class_validator_1.IsString)(),
     (0, typeorm_1.Column)({ name: 'password' }),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
     (0, class_validator_1.Length)(5),
-    (0, swagger_1.ApiProperty)(),
+    (0, swagger_1.ApiProperty)({ type: 'string' }),
+    (0, class_validator_1.IsString)(),
     (0, typeorm_1.Column)({ name: 'mainCity' }),
     __metadata("design:type", String)
 ], User.prototype, "mainCity", void 0);

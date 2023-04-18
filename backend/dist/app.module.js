@@ -35,7 +35,7 @@ AppModule = __decorate([
             database_module_1.DatabaseModule,
             nunjucks_module_1.NunjucksModule,
             user_module_1.UserModule,
-            city_module_1.CityModule
+            city_module_1.CityModule,
         ],
         controllers: [],
         providers: [],

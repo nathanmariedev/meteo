@@ -22,21 +22,18 @@ let CityController = class CityController {
         this.cityService = cityService;
     }
     async findById(insee) {
-        console.log('City?');
         const city = await this.cityService.findOneById(insee);
-        console.log(city);
         return city;
     }
     async findByQuery(query) {
-        console.log('City?');
         const city = await this.cityService.findByQuery(query);
-        console.log(city);
         return city;
     }
 };
 __decorate([
     (0, common_1.Get)('/:insee'),
-    (0, swagger_1.ApiNotFoundResponse)({ description: 'Not Found' }),
+    (0, swagger_1.ApiResponse)({ status: 201, description: 'The record has been successfully created.' }),
+    (0, swagger_1.ApiResponse)({ status: 403, description: 'The record has been successfully created.' }),
     __param(0, (0, common_1.Param)('insee')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),

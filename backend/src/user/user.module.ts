@@ -1,4 +1,4 @@
-import { HttpService, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { DatabaseModule } from '../database/database.module';
 import { UserModel } from './models/user.model';
 import { UserController } from './user.controller';

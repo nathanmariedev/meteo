@@ -54,7 +54,6 @@ let CityModel = class CityModel extends basic_crud_model_1.BasicCrudModel {
         return result;
     }
     async findByQuery(query) {
-        console.log(API_URL);
         let result;
         const response = await axios_1.default.get(`${API_URL}location/cities`, {
             params: {
@@ -63,9 +62,7 @@ let CityModel = class CityModel extends basic_crud_model_1.BasicCrudModel {
             },
         });
         const data = response.data.cities;
-        console.log(data.length);
         result = data.map((city) => new city_class_1.City({ insee: city.insee, cp: city.cp, name: city.name }));
-        console.log(result);
         return result;
     }
 };

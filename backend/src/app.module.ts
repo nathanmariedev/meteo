@@ -25,7 +25,7 @@ import { CityModule } from './city/city.module';
     DatabaseModule,
     NunjucksModule,
     UserModule,
-    CityModule
+    CityModule,
   ],
   controllers: [],
   providers: [],

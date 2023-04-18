@@ -53,7 +53,6 @@ export class CityModel extends BasicCrudModel<City> {
   }
 
   async findByQuery(query: string): Promise<City[]> {
-    console.log(API_URL);
     let result: Array<City>;
     const response = await axios.get(`${API_URL}location/cities`, {
       params: {
@@ -62,13 +61,11 @@ export class CityModel extends BasicCrudModel<City> {
       },
     });
     const data = response.data.cities;
-    console.log(data.length);
     // eslint-disable-next-line prefer-const
     result = data.map(
       (city: { insee: any; cp: any; name: any }) =>
         new City({ insee: city.insee, cp: city.cp, name: city.name }),
     );
-    console.log(result);
     return result;
   }
 }

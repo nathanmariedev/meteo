@@ -24,12 +24,9 @@ let UserController = class UserController {
     }
     async findById(id) {
         const user = await this.userService.findOneById(id);
-        console.log('user');
-        console.log(user);
         return user;
     }
     async add(userToAdd) {
-        console.log(`user to add : ${userToAdd.userName}, ${userToAdd.password}, ${userToAdd.mainCity}// type : ${userToAdd}`);
         const user = await this.userService.add(userToAdd);
         return user;
     }
