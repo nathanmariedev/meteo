@@ -6,11 +6,8 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 import { City } from '../classes/city.class';
 import axios from 'axios';
-import * as dotenv from 'dotenv';
 
 const sqlDir = path.join(__dirname, '/sql');
-const API_URL = process.env.API_URL;
-const API_KEY = process.env.API_KEY;
 
 @Injectable()
 export class CityModel extends BasicCrudModel<City> {
@@ -31,15 +28,14 @@ export class CityModel extends BasicCrudModel<City> {
   }
 
   async findOneById(insee: string): Promise<City> {
-    console.log(API_KEY)
     const file = await fs.readFile(`${sqlDir}/findById.sql`);
     const req = await this.pg.raw(file.toString(), [insee]);
-    if (req.rows.length == 1) {
+    if (req.rows.length === 1) {
       return req.rows[0] as City;
     }
-    const response = await axios.get(`${API_URL}location/city`, {
+    const response = await axios.get(`${process.env.API_URL}location/city`, {
       params: {
-        token: API_KEY,
+        token: process.env.API_KEY,
         insee: insee,
       },
     });
@@ -53,9 +49,9 @@ export class CityModel extends BasicCrudModel<City> {
   }
 
   async findByQuery(query: string): Promise<City[]> {
-    const response = await axios.get(`${API_URL}location/cities`, {
+    const response = await axios.get(`${process.env.API_URL}location/cities`, {
       params: {
-        token: API_KEY,
+        token: process.env.API_KEY,
         search: query,
       },
     });

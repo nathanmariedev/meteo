@@ -33,7 +33,7 @@ export class UserModel extends BasicCrudModel<User> {
   async findOneById(userId: string): Promise<UserWithMainCity> {
     const file = await fs.readFile(`${sqlDir}/findById.sql`);
     const req = await this.pg.raw(file.toString(), [userId]);
-    if (req.rowCount == 0) {
+    if (req.rowCount === 0) {
       throw new NotFoundException(`User ${userId} doesn't exists`);
     }
     const data = req.rows[0];

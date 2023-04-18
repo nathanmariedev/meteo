@@ -20,8 +20,7 @@ AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             config_1.ConfigModule.forRoot({
-                envFilePath: ['process.env'],
-                isGlobal: true,
+                envFilePath: 'config.env',
             }),
             mailer_1.MailerModule.forRootAsync({
                 imports: [config_1.ConfigModule],

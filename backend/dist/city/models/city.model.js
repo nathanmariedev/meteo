@@ -22,8 +22,6 @@ const path = require("path");
 const city_class_1 = require("../classes/city.class");
 const axios_1 = require("axios");
 const sqlDir = path.join(__dirname, '/sql');
-const API_URL = process.env.API_URL;
-const API_KEY = process.env.API_KEY;
 let CityModel = class CityModel extends basic_crud_model_1.BasicCrudModel {
     constructor(pg) {
         super(pg, 'city', ['insee', 'cp', 'name'], city_class_1.City);
@@ -35,15 +33,14 @@ let CityModel = class CityModel extends basic_crud_model_1.BasicCrudModel {
         return req.rows;
     }
     async findOneById(insee) {
-        console.log(API_KEY);
         const file = await fs_1.promises.readFile(`${sqlDir}/findById.sql`);
         const req = await this.pg.raw(file.toString(), [insee]);
-        if (req.rows.length == 1) {
+        if (req.rows.length === 1) {
             return req.rows[0];
         }
-        const response = await axios_1.default.get(`${API_URL}location/city`, {
+        const response = await axios_1.default.get(`${process.env.API_URL}location/city`, {
             params: {
-                token: API_KEY,
+                token: process.env.API_KEY,
                 insee: insee,
             },
         });
@@ -53,9 +50,9 @@ let CityModel = class CityModel extends basic_crud_model_1.BasicCrudModel {
         return result;
     }
     async findByQuery(query) {
-        const response = await axios_1.default.get(`${API_URL}location/cities`, {
+        const response = await axios_1.default.get(`${process.env.API_URL}location/cities`, {
             params: {
-                token: API_KEY,
+                token: process.env.API_KEY,
                 search: query,
             },
         });
