@@ -1,12 +1,10 @@
-import { ConfigService } from '@nestjs/config';
-import { ForbiddenException, Injectable, NotAcceptableException } from '@nestjs/common';
+import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as pbkdf2 from 'crypto';
-import { BCryptService } from '../core/crypto/bcrypt.service';
-import { User } from '../user/classes/user.class';
-import { UserModel } from '../user/models/user.model';
-import { RegisterDto } from './dto/register.dto';
+import { User } from 'src/user/classes/user.class';
+import { UserModel } from 'src/user/models/user.model';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { RegisterDto } from './dto/register.dto';
+import { BCryptService } from './../core/crypto/bcrypt.service';
 
 @Injectable()
 export class AuthService {
@@ -18,12 +16,10 @@ export class AuthService {
 
   //Vérifie les infos de connexion
   async login(userName: string, password: string): Promise<false | User> {
-    const user = await this.userModel.findOne({
-      userName,
-    });
+    const user = this.userModel.login(userName);
     if (!user) return false;
 
-    const match = await this.cryptoService.compare(password, user.password);
+    const match = await this.cryptoService.compare(password, (await user).password);
     if (!match) return false;
 
     return user;

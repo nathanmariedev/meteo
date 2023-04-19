@@ -52,4 +52,10 @@ export class UserModel extends BasicCrudModel<User> {
     );
     return user as CreateUserDto;
   }
+
+  async login(userName: string): Promise<User> {
+    const file = await fs.readFile(`${sqlDir}/login.sql`);
+    const req = await this.pg.raw(file.toString(), [userName]);
+    return req.rows[0] as User;
+  }
 }

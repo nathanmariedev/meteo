@@ -10,8 +10,6 @@ import { FindFavs } from '../dto/find-favs.dto';
 
 dotenv.config();
 const sqlDir = path.join(__dirname, '/sql');
-const API_URL = 'https://api.meteo-concept.com/api/';
-const API_KEY = '1e3804f9ba78545c499d5dd4af53caf47fce3f32dd8d4096e003542c12f37144';
 
 @Injectable()
 export class FavsModel extends BasicCrudModel<Favs> {
