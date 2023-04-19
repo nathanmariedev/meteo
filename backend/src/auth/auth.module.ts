@@ -4,7 +4,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { CoreModule } from '../core/core.module';
 import { DatabaseModule } from '../database/database.module';
-import { EmailModule } from '../email/email.module';
 import { NunjucksModule } from '../nunjucks/nunjucks.module';
 import { UserModule } from '../user/user.module';
 import { AuthController } from './auth.controller';
@@ -29,7 +28,6 @@ import { ResetJwtStrategy } from './strategies/reset.jwt.strategy';
     }),
     NunjucksModule,
     DatabaseModule,
-    EmailModule,
     CoreModule,
     UserModule,
   ],

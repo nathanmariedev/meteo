@@ -2,14 +2,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { City } from './../../city/classes/city.class';
 
 export class UserWithMainCity {
-  constructor(user: { userId: number; userName: string; password: string; mainCity: City }) {
-    this.userId = user.userId;
+  constructor(user: { userName: string; password: string; mainCity: City }) {
     this.userName = user.userName;
     this.password = user.password;
     this.mainCity = user.mainCity;
   }
-  @ApiProperty()
-  userId: number;
 
   @ApiProperty()
   userName: string;

@@ -1,10 +1,5 @@
 import { Controller, Delete, Get, Post, Param, UseInterceptors, Body } from '@nestjs/common';
-import {
-  ApiBadRequestResponse,
-  ApiUnauthorizedResponse,
-  ApiTags,
-  ApiNotFoundResponse,
-} from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiUnauthorizedResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseInterceptor } from '../response.interceptor';
 import { Favs } from './classes/favs.class';
 import { FavsService } from './favs.service';
@@ -16,27 +11,27 @@ import { FindFavs } from './dto/find-favs.dto';
 @ApiBadRequestResponse({ description: 'Bad request' })
 @ApiUnauthorizedResponse({ description: 'Not authorized' })
 export class FavsController {
-  constructor(private readonly cityService: FavsService) {}
+  constructor(private readonly favsService: FavsService) {}
 
   @Get('/:userId')
-  async findById(@Param('userId') userId: number): Promise<FindFavs[]> {
-    const favs = await this.cityService.findById(userId);
+  async findByName(@Param('userId') userName: string): Promise<FindFavs[]> {
+    const favs = await this.favsService.findByName(userName);
     console.log(favs);
     return favs;
   }
 
   @Delete('/:userId/:insee')
-  async deleteById(@Param('userId') userId: number, @Param('insee') insee: string) {
-    const favs = await this.cityService.deleteById(userId, insee);
+  async deleteByName(@Param('userId') userName: string, @Param('insee') insee: string) {
+    const favs = await this.favsService.deleteByName(userName, insee);
     console.log(favs);
     favs;
   }
 
   @Post()
-  async addFav(@Body() newFav: { insee: string; userId: number }): Promise<Favs> {
+  async addFav(@Body() newFav: { insee: string; userName: string }): Promise<Favs> {
     const insee = newFav.insee;
-    const userId = newFav.userId;
-    const favs = await this.cityService.addFav(userId, insee);
+    const userName = newFav.userName;
+    const favs = await this.favsService.addFav(userName, insee);
     return favs;
   }
 }

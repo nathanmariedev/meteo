@@ -18,12 +18,12 @@ import { UserWithMainCity } from './dto/user-with-main-city.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  //GET -- Récupérer un utilisateur grace à 'userId'
-  @Get('/:id')
+  //GET -- Récupérer un utilisateur grace à 'userName'
+  @Get('/:name')
   @ApiResponse({ status: 200, description: `User found` })
   @ApiResponse({ status: 404, description: `User not found` })
-  async findById(@Param('id') id: number): Promise<UserWithMainCity> {
-    return await this.userService.findOneById(id);
+  async findByName(@Param('name') name: string): Promise<UserWithMainCity> {
+    return await this.userService.findOneByName(name);
   }
 
   @Post()

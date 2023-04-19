@@ -3,9 +3,9 @@ import { Length, MinLength } from 'class-validator';
 import { Column } from 'typeorm';
 
 export class Favs {
-  constructor(favs: { insee: string; userId: number }) {
+  constructor(favs: { insee: string; userName: string }) {
     this.insee = favs.insee;
-    this.userId = favs.userId;
+    this.userName = favs.userName;
   }
   @Length(5)
   @ApiProperty()
@@ -14,6 +14,6 @@ export class Favs {
 
   @MinLength(1)
   @ApiProperty()
-  @Column({ name: 'userId' })
-  userId: number;
+  @Column({ name: 'userName' })
+  userName: string;
 }

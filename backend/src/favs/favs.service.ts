@@ -7,15 +7,15 @@ import { FindFavs } from './dto/find-favs.dto';
 export class FavsService {
   constructor(private readonly favsModel: FavsModel) {}
 
-  async findById(userId: number): Promise<FindFavs[]> {
-    return this.favsModel.findById(userId);
+  async findByName(userName: string): Promise<FindFavs[]> {
+    return this.favsModel.findByName(userName);
   }
 
-  async deleteById(userId: number, insee: string) {
-    this.favsModel.deleteById(userId, insee);
+  async deleteByName(userName: string, insee: string) {
+    this.favsModel.deleteByName(userName, insee);
   }
 
-  async addFav(userId: number, insee: string): Promise<Favs> {
-    return this.favsModel.addFav(userId, insee);
+  async addFav(userName: string, insee: string): Promise<Favs> {
+    return this.favsModel.addFav(userName, insee);
   }
 }

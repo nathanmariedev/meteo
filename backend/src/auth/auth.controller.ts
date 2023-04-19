@@ -41,7 +41,7 @@ export class AuthController {
     description: 'Wrong username/password combination',
   })
   async loginAction(@Body() body: LoginDto): Promise<TokenDto> {
-    const user = await this.authService.login(body.email, body.password);
+    const user = await this.authService.login(body.userName, body.password);
     if (!user) {
       throw new UnauthorizedException('Wrong username/password combination');
     }
@@ -54,54 +54,10 @@ export class AuthController {
 
   @Post('register')
   @ApiCreatedResponse({ description: 'Successful register' })
-  @ApiNotAcceptableResponse({ description: 'Email already in use' })
+  @ApiNotAcceptableResponse({ description: 'UserName already in use' })
   async registerAction(@Body() body: RegisterDto): Promise<void> {
     await this.authService.register(body);
 
     return;
-  }
-
-  @Post('register/activate')
-  @UseGuards(AuthGuard('activation'))
-  @ApiQuery({
-    name: 'token',
-    description: 'Activation token',
-  })
-  @ApiOkResponse({ description: 'Account activation successful' })
-  @ApiUnauthorizedResponse({ description: 'Link is not valid' })
-  async confirmRegisterAction(@RequestUser('sub') userId: string): Promise<void> {
-    const user = await this.authService.activate(userId);
-    if (!user) {
-      throw new BadRequestException('Account already active');
-    }
-
-    return;
-  }
-
-  @Post('reset-password')
-  @HttpCode(202)
-  @ApiAcceptedResponse({ description: 'You might receive an email' })
-  async sendResetPasswordLinkAction(@Body() body: ResetPasswordDto): Promise<void> {
-    await this.authService.resetPassword(body.email);
-
-    return;
-  }
-
-  @Post('reset-password/new')
-  @UseGuards(AuthGuard('reset'))
-  @HttpCode(200)
-  @ApiQuery({
-    name: 'token',
-    description: 'Reset password token',
-  })
-  @ApiOkResponse({ description: 'Password successfully changed', type: User })
-  @ApiUnauthorizedResponse({ description: 'Link is not valid' })
-  async setNewPasswordAction(
-    @RequestUser() payload: JwtPayload,
-    @Body() body: NewPasswordDto,
-  ): Promise<User> {
-    const user = await this.authService.setNewPassword(payload, body.password);
-
-    return user;
   }
 }
