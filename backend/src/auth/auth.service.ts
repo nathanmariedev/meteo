@@ -1,10 +1,10 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/classes/user.class';
-import { UserModel } from 'src/user/models/user.model';
+import { UserModel } from './../user/models/user.model';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
-import { RegisterDto } from './dto/register.dto';
 import { BCryptService } from './../core/crypto/bcrypt.service';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -16,10 +16,10 @@ export class AuthService {
 
   //Vérifie les infos de connexion
   async login(userName: string, password: string): Promise<false | User> {
-    const user = this.userModel.login(userName);
+    const user = await this.userModel.login(userName);
     if (!user) return false;
 
-    const match = await this.cryptoService.compare(password, (await user).password);
+    const match = await this.cryptoService.compare(password, user.password);
     if (!match) return false;
 
     return user;
@@ -38,13 +38,9 @@ export class AuthService {
     return signedToken;
   }
 
-  async register(data: RegisterDto): Promise<User> {
+  async register(data: CreateUserDto): Promise<User> {
     try {
-      const user = await this.userModel.create({
-        userName: data.userName,
-        password: await this.cryptoService.hash(data.password),
-        mainCity: data.mainCity,
-      });
+      const user = await this.userModel.addOne(data);
 
       user.password = null;
 

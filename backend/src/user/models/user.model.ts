@@ -7,7 +7,7 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 import { UserWithMainCity } from '../dto/user-with-main-city.dto';
 import { City } from './../../city/classes/city.class';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUserDto } from '../../user/dto/create-user.dto';
 
 const sqlDir = path.join(__dirname, '/sql');
 
@@ -44,12 +44,9 @@ export class UserModel extends BasicCrudModel<User> {
   }
 
   async addOne(user: CreateUserDto): Promise<CreateUserDto> {
+    // eslint-disable-next-line prettier/prettier
     await this.pg.raw(
-      'INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?, ?, ?);',
-      user.userName,
-      user.password,
-      user.mainCity,
-    );
+      'INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?,?,?);',[user.userName, user.password,user.mainCity]);
     return user as CreateUserDto;
   }
 

@@ -1,32 +1,16 @@
+import { Body, Controller, HttpCode, Post, UnauthorizedException } from '@nestjs/common';
 import {
-  BadRequestException,
-  Body,
-  Controller,
-  HttpCode,
-  Post,
-  UnauthorizedException,
-  UseGuards,
-} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import {
-  ApiAcceptedResponse,
   ApiBadRequestResponse,
   ApiCreatedResponse,
-  ApiQuery,
   ApiNotAcceptableResponse,
   ApiOkResponse,
   ApiUnauthorizedResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { User } from '../user/classes/user.class';
 import { AuthService } from './auth.service';
-import { RequestUser } from './decorators/request-user.decorator';
 import { LoginDto } from './dto/login.dto';
-import { NewPasswordDto } from './dto/new-password.dto';
-import { RegisterDto } from './dto/register.dto';
-import { ResetPasswordDto } from './dto/reset-password.dto';
 import { TokenDto } from './dto/token.dto';
-import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { CreateUserDto } from '../user/dto/create-user.dto';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -42,6 +26,7 @@ export class AuthController {
   })
   async loginAction(@Body() body: LoginDto): Promise<TokenDto> {
     const user = await this.authService.login(body.userName, body.password);
+
     if (!user) {
       throw new UnauthorizedException('Wrong username/password combination');
     }
@@ -55,7 +40,8 @@ export class AuthController {
   @Post('register')
   @ApiCreatedResponse({ description: 'Successful register' })
   @ApiNotAcceptableResponse({ description: 'UserName already in use' })
-  async registerAction(@Body() body: RegisterDto): Promise<void> {
+  async registerAction(@Body() body: CreateUserDto): Promise<void> {
+    console.log(body);
     await this.authService.register(body);
 
     return;
