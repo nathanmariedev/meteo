@@ -7,8 +7,4 @@ export class FindUserDto extends PickType(User, ['userName', 'password', 'mainCi
   // You can add any additional properties or methods here
 }
 
-export class FindCityDto extends PickType(City, ['insee', 'cp', 'name']) {
-  // You can add any additional properties or methods here
-}
-
-export class FindFavs extends IntersectionType(FindUserDto, FindCityDto) {}
+export class FindFavs extends IntersectionType(FindUserDto, City) {}

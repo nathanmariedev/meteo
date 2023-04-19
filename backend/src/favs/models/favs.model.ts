@@ -7,6 +7,7 @@ import * as dotenv from 'dotenv';
 import { Favs } from '../classes/favs.class';
 import { promises as fs } from 'fs';
 import { FindFavs } from '../dto/find-favs.dto';
+import { plainToClass } from 'class-transformer';
 
 dotenv.config();
 const sqlDir = path.join(__dirname, '/sql');
@@ -25,10 +26,7 @@ export class FavsModel extends BasicCrudModel<Favs> {
   async findByName(userName: string): Promise<FindFavs[]> {
     const file = await fs.readFile(`${sqlDir}/findByName.sql`);
     const req = await this.pg.raw(file.toString(), [userName]);
-    req.rows.map((res: { insee: string; userName: string }) => {
-      new FindFavs(res);
-    });
-    return req.rows;
+    return plainToClass(FindFavs, req.rows) as unknown as FindFavs[];
   }
 
   async deleteByName(userName: string, insee: string) {
@@ -38,7 +36,7 @@ export class FavsModel extends BasicCrudModel<Favs> {
 
   async addFav(userName: string, insee: string): Promise<Favs> {
     const file = await fs.readFile(`${sqlDir}/add.sql`);
-    await this.pg.raw(file.toString(), [insee, userName]);
-    return new Favs({ insee: insee, userName: userName });
+    const req = await this.pg.raw(file.toString(), [insee, userName]);
+    return plainToClass(Favs, req.rows[0]) as Favs;
   }
 }

@@ -1,1 +1,1 @@
-INSERT INTO "favs"("insee", "userName") VALUES (?,?);
+INSERT INTO "favs"("insee", "userName") VALUES (?,?) RETURNING *;

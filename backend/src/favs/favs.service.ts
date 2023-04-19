@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Favs } from './classes/favs.class';
 import { FavsModel } from './models/favs.model';
 import { FindFavs } from './dto/find-favs.dto';
+import { CreateFavsDto } from './dto/create-fav.dto';
 
 @Injectable()
 export class FavsService {
@@ -15,7 +16,7 @@ export class FavsService {
     this.favsModel.deleteByName(userName, insee);
   }
 
-  async addFav(userName: string, insee: string): Promise<Favs> {
-    return this.favsModel.addFav(userName, insee);
+  async addFav(userName: string, newFav: CreateFavsDto): Promise<Favs> {
+    return this.favsModel.addFav(userName, newFav.insee);
   }
 }
