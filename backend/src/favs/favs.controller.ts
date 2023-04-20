@@ -30,7 +30,7 @@ import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 export class FavsController {
   constructor(private readonly favsService: FavsService) {}
 
-  @Get('/')
+  @Get()
   @UseGuards(AuthGuard('access'))
   @ApiResponse({ status: 200, description: `User's favourites found` })
   async findByName(@RequestUser() user: JwtPayload) {
