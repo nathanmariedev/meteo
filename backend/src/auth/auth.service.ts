@@ -5,6 +5,7 @@ import { UserModel } from './../user/models/user.model';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { BCryptService } from './../core/crypto/bcrypt.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { use } from 'passport';
 
 @Injectable()
 export class AuthService {
@@ -40,6 +41,7 @@ export class AuthService {
 
   async register(data: CreateUserDto): Promise<User> {
     try {
+      data.password = await this.cryptoService.hash(data.password);
       const user = await this.userModel.addOne(data);
 
       user.password = null;
