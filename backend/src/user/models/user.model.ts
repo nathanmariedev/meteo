@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { PG_CONNECTION } from '../../database/database.constants';
 import { BasicCrudModel } from '../../common/models/basic-crud.model';
 import { User } from '../classes/user.class';
@@ -7,7 +7,7 @@ import { promises as fs } from 'fs';
 import * as path from 'path';
 import { UserWithMainCity } from '../dto/user-with-main-city.dto';
 import { City } from './../../city/classes/city.class';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUserDto } from '../../user/dto/create-user.dto';
 
 const sqlDir = path.join(__dirname, '/sql');
 
@@ -17,20 +17,17 @@ export class UserModel extends BasicCrudModel<User> {
     super(
       pg, // Knex provider instance
       'user', // Nom de la table
-      ['userId', 'username', 'password', 'mainCity'], // Liste des colonnes
+      ['userName', 'password', 'mainCity'], // Liste des colonnes
       User, // Type de classe utilisé pour la transformation via 'plainToClass' dans basicCrudModel
     );
   }
 
   //Récupérer un utilisateur grâce à 'userId'
-  async findOneById(userId: number): Promise<UserWithMainCity> {
-    if (isNaN(userId)) {
-      throw new BadRequestException(`Wrong format`);
-    }
-    const file = await fs.readFile(`${sqlDir}/findById.sql`);
-    const req = await this.pg.raw(file.toString(), [userId]);
+  async findOneByName(userName: string): Promise<UserWithMainCity> {
+    const file = await fs.readFile(`${sqlDir}/findByName.sql`);
+    const req = await this.pg.raw(file.toString(), [userName]);
     if (req.rowCount === 0) {
-      throw new NotFoundException(`User ${userId} doesn't exists`);
+      throw new NotFoundException(`User ${userName} doesn't exists`);
     }
     const data = req.rows[0];
     const mainCity = new City({
@@ -39,7 +36,6 @@ export class UserModel extends BasicCrudModel<User> {
       name: data.name,
     });
     const user = new UserWithMainCity({
-      userId: data.userId,
       userName: data.userName,
       password: data.password,
       mainCity: mainCity,
@@ -48,12 +44,16 @@ export class UserModel extends BasicCrudModel<User> {
   }
 
   async addOne(user: CreateUserDto): Promise<CreateUserDto> {
-    await this.pg.raw(
-      'INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?, ?, ?);',
-      user.userName,
-      user.password,
-      user.mainCity,
+    const userCreated = await this.pg.raw(
+      'INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?,?,?) RETURNING *;',
+      [user.userName, user.password, user.mainCity],
     );
-    return user as CreateUserDto;
+    return userCreated;
+  }
+
+  async login(userName: string): Promise<User> {
+    const file = await fs.readFile(`${sqlDir}/login.sql`);
+    const req = await this.pg.raw(file.toString(), [userName]);
+    return req.rows[0] as User;
   }
 }

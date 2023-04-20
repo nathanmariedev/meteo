@@ -4,12 +4,6 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'user' })
 export class User {
-  @PrimaryGeneratedColumn()
-  @ApiProperty({ type: 'number', format: 'uuid' })
-  @IsNumber()
-  @Column({ name: 'userId' })
-  userId: number;
-
   @MaxLength(42)
   @ApiProperty({ type: 'string' })
   @IsString()

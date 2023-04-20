@@ -1,0 +1,3 @@
+curl -X DELETE -H "Content-Type: application/json" http://localhost:3001/favs/22/44109
+
+curl -X POST -d 'insee=44109&userId=22' http://localhost:3001/favs

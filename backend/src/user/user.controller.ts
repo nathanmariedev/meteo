@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Param, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseInterceptors, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiUnauthorizedResponse,
@@ -9,6 +9,9 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 import { ResponseInterceptor } from '../response.interceptor';
 import { UserWithMainCity } from './dto/user-with-main-city.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { RequestUser } from '../auth/decorators/request-user.decorator';
+import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
 
 @Controller('user')
 @ApiTags('User')
@@ -18,12 +21,13 @@ import { UserWithMainCity } from './dto/user-with-main-city.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  //GET -- Récupérer un utilisateur grace à 'userId'
-  @Get('/:id')
+  //GET -- Récupérer un utilisateur grace à 'userName'
+  @Get('/')
+  @UseGuards(AuthGuard('access'))
   @ApiResponse({ status: 200, description: `User found` })
   @ApiResponse({ status: 404, description: `User not found` })
-  async findById(@Param('id') id: number): Promise<UserWithMainCity> {
-    return await this.userService.findOneById(id);
+  async findByName(@RequestUser() user: JwtPayload): Promise<UserWithMainCity> {
+    return await this.userService.findOneByName(user.sub);
   }
 
   @Post()
