@@ -8,8 +8,8 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return knex.schema.table('user', function (table) {
-    table.dropPrimary('userName');
-    table.dropColumn('userName');
-    table.increments('userId').primary();
+    table.dropPrimary();
+    table.increments('userId');
+    table.primary(['userId']);
   });
 };

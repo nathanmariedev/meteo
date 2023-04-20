@@ -13,7 +13,7 @@ exports.down = function(knex) {
   return knex.schema.alterTable('favs', function(table) {
     table.dropPrimary(); // remove the primary key constraint
     table.dropColumn('userName'); // drop the userName column
-    table.integer('userId'); // add back the userId column
+    table.increments('userId').notNullable(); // add back the userId column
     table.primary(['insee', 'userId']); // add the primary key constraint on the 'insee' and 'userId' columns
   });
 };
