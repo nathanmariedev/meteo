@@ -8,15 +8,15 @@ exports.seed = function (knex) {
       return knex('favs').insert([
         {
           insee: '44109',
-          userId: 8,
+          userName: 8,
         },
         {
           insee: '75056',
-          userId: 9,
+          userName: 9,
         },
         {
           insee: '44109',
-          userId: 9,
+          userName: 9,
         },
       ]);
     });
