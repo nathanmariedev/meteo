@@ -1,9 +1,4 @@
 import { PickType } from '@nestjs/swagger';
-import { FindFavs } from '../dto/find-favs.dto';
+import { Favs } from '../classes/favs.class';
 
-export class CreateFavsDto extends PickType(FindFavs, ['insee']) {
-  constructor(insee: string) {
-    super();
-    this.insee = insee;
-  }
-}
+export class CreateFavsDto extends PickType(Favs, ['insee']) {}

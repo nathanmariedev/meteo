@@ -6,7 +6,6 @@ import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { BCryptService } from './../core/crypto/bcrypt.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { FavsService } from './../favs/favs.service';
-import { CreateFavsDto } from './../favs/dto/create-fav.dto';
 
 @Injectable()
 export class AuthService {
@@ -48,7 +47,7 @@ export class AuthService {
 
       user.password = null;
 
-      await this.favsService.addFav(data.userName, new CreateFavsDto(data.mainCity));
+      await this.favsService.addFav(data.userName, { insee: data.mainCity });
 
       return user;
     } catch (error) {
