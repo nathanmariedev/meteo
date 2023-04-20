@@ -11,6 +11,10 @@ import { AuthService } from './auth.service';
 import { AccessJwtStrategy } from './strategies/access.jwt.strategy';
 import { ActivationJwtStrategy } from './strategies/activation.jwt.strategy';
 import { ResetJwtStrategy } from './strategies/reset.jwt.strategy';
+import { CityService } from './../city/city.service';
+import { FavsService } from './../favs/favs.service';
+import { CityModel } from './../city/models/city.model';
+import { FavsModel } from './../favs/models/favs.model';
 
 @Module({
   imports: [
@@ -32,6 +36,15 @@ import { ResetJwtStrategy } from './strategies/reset.jwt.strategy';
     UserModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, ActivationJwtStrategy, AccessJwtStrategy, ResetJwtStrategy],
+  providers: [
+    AuthService,
+    ActivationJwtStrategy,
+    AccessJwtStrategy,
+    ResetJwtStrategy,
+    CityService,
+    CityModel,
+    FavsService,
+    FavsModel,
+  ],
 })
 export class AuthModule {}

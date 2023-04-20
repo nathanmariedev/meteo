@@ -44,10 +44,11 @@ export class UserModel extends BasicCrudModel<User> {
   }
 
   async addOne(user: CreateUserDto): Promise<CreateUserDto> {
-    // eslint-disable-next-line prettier/prettier
-    await this.pg.raw(
-      'INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?,?,?);',[user.userName, user.password,user.mainCity]);
-    return user as CreateUserDto;
+    const userCreated = await this.pg.raw(
+      'INSERT INTO "user" ("userName", "password", "mainCity") VALUES (?,?,?) RETURNING *;',
+      [user.userName, user.password, user.mainCity],
+    );
+    return userCreated;
   }
 
   async login(userName: string): Promise<User> {

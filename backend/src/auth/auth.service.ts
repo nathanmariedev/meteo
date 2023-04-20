@@ -5,12 +5,14 @@ import { UserModel } from './../user/models/user.model';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { BCryptService } from './../core/crypto/bcrypt.service';
 import { CreateUserDto } from '../user/dto/create-user.dto';
-import { use } from 'passport';
+import { FavsService } from './../favs/favs.service';
+import { CreateFavsDto } from './../favs/dto/create-fav.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userModel: UserModel,
+    private readonly favsService: FavsService,
     private readonly jwtService: JwtService,
     private readonly cryptoService: BCryptService,
   ) {}
@@ -46,10 +48,12 @@ export class AuthService {
 
       user.password = null;
 
+      await this.favsService.addFav(data.userName, new CreateFavsDto(data.mainCity));
+
       return user;
     } catch (error) {
       if (error.routine === '_bt_check_unique') {
-        throw new NotAcceptableException('Email already in use');
+        throw new NotAcceptableException(`Username ${data.userName} already in use`);
       } else {
         throw error;
       }

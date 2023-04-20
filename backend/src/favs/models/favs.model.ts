@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { PG_CONNECTION } from '../../database/database.constants';
 import { BasicCrudModel } from '../../common/models/basic-crud.model';
 import { Knex } from 'knex';
@@ -35,8 +35,12 @@ export class FavsModel extends BasicCrudModel<Favs> {
   }
 
   async addFav(userName: string, insee: string): Promise<Favs> {
-    const file = await fs.readFile(`${sqlDir}/add.sql`);
-    const req = await this.pg.raw(file.toString(), [insee, userName]);
-    return plainToClass(Favs, req.rows[0]) as Favs;
+    try {
+      const file = await fs.readFile(`${sqlDir}/add.sql`);
+      const req = await this.pg.raw(file.toString(), [insee, userName]);
+      return plainToClass(Favs, req.rows[0]) as Favs;
+    } catch {
+      throw new BadRequestException('Already in favorites!');
+    }
   }
 }
