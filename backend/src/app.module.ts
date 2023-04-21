@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { CityModule } from './city/city.module';
 import { FavsModule } from './favs/favs.module';
 import { AuthModule } from './auth/auth.module';
+import { MeteoModule } from './meteo/meteo.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AuthModule } from './auth/auth.module';
     CityModule,
     FavsModule,
     AuthModule,
+    MeteoModule,
   ],
   controllers: [],
   providers: [],
