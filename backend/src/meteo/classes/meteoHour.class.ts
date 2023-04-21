@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, IsDate, IsDateString, Min, Max } from 'class-validator';
+import { IsNumber, IsString, IsDateString, Min, Max } from 'class-validator';
 
 export class MeteoHour {
   @ApiProperty()

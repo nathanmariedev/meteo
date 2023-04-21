@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { IsInt, IsNumber, Min, Max } from 'class-validator';
-import { Column } from 'typeorm';
 
 export class MeteoDay {
   insee: string;
