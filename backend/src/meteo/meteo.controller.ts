@@ -7,7 +7,8 @@ import {
 } from '@nestjs/swagger';
 import { ResponseInterceptor } from '../response.interceptor';
 import { MeteoService } from './meteo.service';
-import { Meteo } from './classes/meteo.class';
+import { MeteoHour } from './classes/meteoHour.class';
+import { MeteoDay } from './classes/meteoDay.class';
 
 @Controller('meteo')
 @ApiTags('Météo')
@@ -20,14 +21,14 @@ export class MeteoController {
   @Get('/hour/:insee')
   @ApiResponse({ status: 200, description: `Meteo found` })
   @ApiResponse({ status: 200, description: `Meteo for these hourts can't be found` })
-  async getHours(@Param() insee: string): Promise<Meteo[]> {
+  async getHours(@Param() insee: string): Promise<MeteoHour[]> {
     return await this.meteoService.getHours(insee);
   }
 
   @Get('/day/:insee')
   @ApiResponse({ status: 200, description: `Meteo found` })
   @ApiResponse({ status: 200, description: `Meteo for this date can't be found` })
-  async getDays(@Param() insee: string): Promise<Meteo[]> {
+  async getDays(@Param() insee: string): Promise<MeteoDay[]> {
     return await this.meteoService.getDays(insee);
   }
 }

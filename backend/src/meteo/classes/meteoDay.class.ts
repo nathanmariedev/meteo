@@ -3,7 +3,7 @@ import { Expose } from 'class-transformer';
 import { IsInt, IsNumber, Min, Max } from 'class-validator';
 import { Column } from 'typeorm';
 
-export class Meteo {
+export class MeteoDay {
   insee: string;
 
   @ApiProperty()
@@ -28,7 +28,7 @@ export class Meteo {
   @Max(13)
   day: number;
 
-  datetime: Date;
+  datetime: string;
 
   @ApiProperty()
   @IsInt()
