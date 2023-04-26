@@ -1,52 +1,71 @@
 <template>
   <section class="login">
-    <h2>Login</h2>
-    <form @submit.prevent="handleSubmit()">
-      <p>
-        <label for="email">Username</label>
-        <app-input id="userName" v-model="auth.userName" placeholder="username" type="" />
-      </p>
-      <p>
-        <label for="password">Password</label>
-        <app-input id="password" type="password" v-model="auth.password" placeholder="password" />
-      </p>
-      <app-button type="submit">Log</app-button>
-    </form>
+    <div class="grid-container">
+      <app-subtitle>Login</app-subtitle>
+
+      <form ref="register" @submit.prevent="login(user)">
+        <div>
+          <app-label required>Email</app-label>
+          <app-input autocomplete="email" type="email" placeholder="email" required v-model="user.email"/>
+        </div>
+        <div>
+          <app-label required>Password</app-label>
+          <app-input autocomplete="current-password" type="password" placeholder="mot de passe" required  v-model="user.password"/>
+        </div>
+        <div>
+          <app-button type="submit">Register</app-button>
+        </div>
+      </form>
+    </div>
   </section>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue';
-import authService from '@/services/auth';
-import type Auth from '@/types/auth';
-import { message } from '@basics/utils/useMessage';
-import router from '@/router';
-import { notification } from '@basics/utils/useNotification';
+<script>
+import auth from '@/services/auth';
 
-const auth = ref<Auth>({
-  userName: '',
-  password: '',
-  mainCity: '',
-});
+export default {
+  name: 'login',
+  data() {
+    return {
+      user: {
+        email: '',
+        password: '',
+      },
+    };
+  },
+  methods: {
+    async login(user) {
+      if (this.$refs.register.checkValidity()) {
+        try {
+          await auth.login(user);
+          this.$notification.show({
+            text: 'Login réussi !',
+          });
+          // TO DO spinner d'attente
 
-const handleSubmit = async () => {
-  // TODO la validation commune front/back
-  try {
-    await authService.login(auth.value);
-    router.push({ name: 'home' });
-    notification('☀️  Authentification réussie! ');
-  } catch (error) {
-    notification(`🌧️  Oups! Nom d'utilisateur ou/et mot de passe incorect... `);
-    throw error;
-  }
+          this.$router.push({ name: 'demo' });
+        } catch (error) {
+          this.$message.show({
+            title: 'Erreur',
+            text: 'Impossible de vous connecter',
+            confirmText: 'Ok',
+            hasCancel: false,
+          });
+
+          throw error;
+        }
+      } else {
+        this.$refs.register.reportValidity();
+      }
+    },
+  },
 };
 </script>
 
-<style>
-.login {
-  padding: 2rem;
-}
-.login.label{
-  display: block;
-}
+<style lang="sass">
+.login
+  padding: 1rem
+  text-align: left
+  form > div
+    padding: 1rem 0
 </style>

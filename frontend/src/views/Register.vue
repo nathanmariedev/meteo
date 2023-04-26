@@ -1,87 +1,71 @@
 <template>
   <section class="register">
-    <h2>Register</h2>
-    <form @submit.prevent="handleSubmit()">
-      <p>
-        <label for="email">Username</label>
-        <app-input
-          id="userName"
-          v-model="auth.userName"
-          placeholder="username"
-          type=""
-          minlength="8"
-        />
-      </p>
-      <p>
-        <label for="password">Password</label>
-        <app-input id="password" type="" v-model="auth.password" placeholder="password" />
-      </p>
-      <p>
-        <label for="city">City</label>
-        <app-input
-          type=""
-          v-model="input"
-          placeholder="Select a city"
-          @input="refreshSuggestions"
-        ></app-input>
-        <datalist id="city-list">
-          <option
-            v-for="suggestion in suggestions"
-            :key="suggestion.insee"
-            :value="suggestion.insee"
-          >
-            {{ suggestion.name }}
-          </option>
-        </datalist>
-      </p>
-      <app-button type="submit">Create</app-button>
-    </form>
+    <div class="grid-container">
+      <app-subtitle>Register</app-subtitle>
+
+      <form ref="register" @submit.prevent="register(user)">
+        <div>
+          <app-label required>Email</app-label>
+          <app-input autocomplete="email" type="email" placeholder="email" required v-model="user.email"/>
+        </div>
+        <div>
+          <app-label required>Password</app-label>
+          <app-input autocomplete="new-password" type="password" placeholder="mot de passe" required  v-model="user.password"/>
+        </div>
+        <div>
+          <app-button type="submit">Register</app-button>
+        </div>
+      </form>
+    </div>
   </section>
 </template>
 
-<script lang="ts" setup>
-import { onBeforeMount, ref, watch } from 'vue';
-import cityService from '@/services/city';
-import authService from '@/services/auth';
-import type Auth from '@/types/auth';
-import router from '@/router';
-import { notification } from '@basics/utils/useNotification';
-import axios from 'axios';
-import api from '@/services/api';
-import type City from '@/types/city';
+<script>
+import api from '@/services/api/member';
 
-const input = ref('');
-let suggestions: City[];
+export default {
+  name: 'register',
+  data() {
+    return {
+      user: {
+        email: '',
+        password: '',
+      },
+    };
+  },
+  methods: {
+    async register(user) {
+      if (this.$refs.register.checkValidity()) {
+        try {
+          await api.register(user);
+          this.$message.show({
+            title: 'Inscription réussie',
+            text: 'Votre inscription est effectuée. Vous allez prochainement recevoir un email pour activer votre compte.',
+            confirmText: 'Ok',
+            hasCancel: false,
+          });
+        } catch (error) {
+          this.$message.show({
+            title: 'Erreur',
+            text: 'Impossible de vous inscrire',
+            confirmText: 'Ok',
+            hasCancel: false,
+          });
 
-async function refreshSuggestions() {
-  suggestions = (await cityService.find(input.value)).data;
-  console.log(suggestions);
-}
-
-const auth = ref<Auth>({
-  userName: '',
-  password: '',
-  mainCity: '',r
-});
-
-const handleSubmit = async () => {
-  // TODO la validation commune front/back
-  try {
-    auth.value.mainCity = input.value.toString();
-    await authService.register(auth.value);
-    router.push({ name: 'home' });
-    notification('☀️  Compte créé! Connectez-vous pour accéder à WeatherApp ');
-  } catch (e) {
-    notification(`🌧️  ${e.response.data.statusCode} : ${e.response.data.message} `);
-  }
+          throw error;
+        }
+      } else {
+        this.$refs.register.reportValidity();
+      }
+    },
+  },
 };
 </script>
 
-<style>
-.login {
-  padding: 2rem;
-}
-.login.label{
-  display: block;
-}
+<style lang="sass">
+.register
+  padding: 1rem
+  text-align: left
+  form > div
+    padding: 1rem 0
 </style>
