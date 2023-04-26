@@ -5,12 +5,12 @@ import ls from 'local-storage';
 const router = require('../router');
 
 const API_URL = process.env.VUE_APP_API_URL;
-let TOKEN = ls('TOKEN') || false;
+let TOKEN = localStorage.getItem('TOKEN') || false;
 const redirectRouteName = 'login';
 
 // Token du local storage
 if (TOKEN) {
-  axios.defaults.headers.common.Authorization = `Bearer ${TOKEN.token}`;
+  axios.defaults.headers.common.Authorization = `Bearer ${TOKEN}`;
 }
 
 // Récupération par axios d'une 401 (unauthorized) et redirection login
@@ -37,9 +37,9 @@ const login = async (user) => {
       password: user.password,
     });
 
-    TOKEN = response.data;
-    ls('TOKEN', response.data);
-    axios.defaults.headers.common.Authorization = `Bearer ${TOKEN.token}`;
+    TOKEN = response.data.token;
+    localStorage.setItem('TOKEN', TOKEN);
+    axios.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem('TOKEN')}`;
 
     return true;
   } catch (error) {

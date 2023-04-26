@@ -18,7 +18,7 @@ export class FavsModel extends BasicCrudModel<Favs> {
     super(
       pg, // Knex provider instance
       'favs', // Nom de la table
-      ['insee', 'userId'], // Liste des colonnes
+      ['insee', 'userName'], // Liste des colonnes
       Favs, // Type de classe utilisé pour la transformation via 'plainToClass' dans basicCrudModel
     );
   }

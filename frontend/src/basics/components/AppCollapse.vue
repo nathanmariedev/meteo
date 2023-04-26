@@ -24,7 +24,7 @@ Collapse
 
 -->
 <template>
-  <div class="app-collapse" :class="{ open: input === name }">
+  <div class="app-collapse" :class="{ open: input === name }" :style="{ borderBottom: input === name ?`solid 1px #121212`:`none`}">
     <div class="header" @click="onChange()">{{ title }}</div>
     <div class="content" ref="content" :style="{ height: input === name ? `${$refs.content.scrollHeight}px` : 0 }">
       <div><slot></slot></div>
@@ -53,12 +53,21 @@ export default {
 
 <style lang="sass">
 .app-collapse
+  display: flex
+  flex-direction: column
+  justify-content: start
+  margin: 15px
+  border-bottom: solid 1px #121212
+  transition: all 0.5s linear
+  max-width: 15vw
   .header
-    padding: 1rem
-    background: lighten($light-color, 8%)
+    text-align: start
+    padding: 0.5rem
+    background: $background-dark-secondary
   .content
     overflow: hidden
+    margin-left: 20px
     transition: all 0.3s linear
     > div
-      padding: 1rem
+      text-align: start
 </style>

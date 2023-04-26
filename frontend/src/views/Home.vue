@@ -1,7 +1,7 @@
 <template>
 <section id="app">
   <div class="logo">
-    <img src="./../../public/weatherIcons/storm.svg" />
+    <Storm />
     <app-title>WeatherApp</app-title>
   </div>
     <div class="buttons">
@@ -16,8 +16,12 @@
 </template>
 
 <script>
+import Storm from '@/assets/img/weatherIcons/storm.svg';
 
 export default {
+  components: {
+    Storm,
+  },
   methods: {
     redirectTo(where) {
       this.$router.push({ name: where });
@@ -25,3 +29,7 @@ export default {
   },
 };
 </script>
+<style lang="sass">
+#app
+  background: $background-dark
+</style>

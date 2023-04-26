@@ -66,6 +66,7 @@ export default {
 .login
   padding: 1rem
   text-align: left
+  color: $light-color
   form > div
     padding: 1rem 0
 </style>
