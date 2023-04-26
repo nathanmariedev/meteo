@@ -1,14 +1,6 @@
 <template>
   <section id="app">
-    <div class="logo">
-      <app-title>WeatherApp</app-title>
-    </div>
-    <div class="buttons">
-      <app-button :type="button" size="medium" >Register</app-button>
-      <app-button :type="button" :size="large" look="second" >Login</app-button>
-    </div>
     <router-view/>
-
     <!-- Global basics components integration -->
     <app-message/>
     <app-notifications/>
@@ -17,6 +9,13 @@
 
 <script>
 
+export default {
+  methods: {
+    redirectTo(where) {
+      this.$router.push({ name: where });
+    },
+  },
+};
 </script>
 <style lang="sass">
 @import "@/assets/sass/app.sass"
