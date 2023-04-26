@@ -1,4 +1,5 @@
 export default interface Auth {
-  email: string;
+  userName: string;
   password: string;
+  mainCity: string;
 }

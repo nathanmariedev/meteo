@@ -1,5 +1,6 @@
 <template>
-  <div class="home">
+  <div class="main">
+    <Header />
     <app-button size="small" type="button" look="main" @click="() => {redirectToPage('register')}">Register</app-button>
     <app-button size="small" type="button" look="second" @click="() => {redirectToPage('login')}">Login</app-button>
   </div>
@@ -14,15 +15,6 @@ import auth from '@/services/auth';
 const redirectToPage = (where: string) => {
   router.push({ name: where });
 };
-
-onBeforeMount(() => {
-  if (localStorage.getItem('TOKEN') !== null) {
-    router.push({ name: 'main' });
-  }
-});
-/**
- * A home page
- */
 </script>
 
 <style>

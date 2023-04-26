@@ -60,7 +60,7 @@ const handleClick = (evt: MouseEvent) => {
   padding: 1rem 1.8rem 0.9rem;
   background: var(--color-main-flat);
   color: var(--color-main-line);
-  border: 1px solid var(--color-main-line);
+  border: none;
   border-radius: var(--global-border-radius);
   text-transform: uppercase;
   font-size: 1.1rem;
@@ -68,7 +68,7 @@ const handleClick = (evt: MouseEvent) => {
   cursor: pointer;
 
   &:hover {
-    background: darken(var(--color-main-flat), 5%);
+    background: darken(var(--color-main-flat), 20%);
   }
 
   &:focus {

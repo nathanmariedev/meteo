@@ -24,6 +24,7 @@ export class AuthService {
     const match = await this.cryptoService.compare(password, user.password);
     if (!match) return false;
 
+    console.log(`${user.userName} just connected!`);
     return user;
   }
 

@@ -14,7 +14,6 @@ axios.interceptors.response.use(null, (error) => {
     localStorage.removeItem('TOKEN');
     if (router.currentRoute.value.name !== 'login') router.push({ name: 'login' });
   }
-  return Promise.reject(error);
 });
 
 export default apiClient;

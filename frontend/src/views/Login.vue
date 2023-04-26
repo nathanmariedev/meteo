@@ -3,8 +3,8 @@
     <h2>Login</h2>
     <form @submit.prevent="handleSubmit()">
       <p>
-        <label for="email">Email</label>
-        <app-input id="email" type="email" v-model="auth.email" placeholder="email" />
+        <label for="email">Username</label>
+        <app-input id="userName" v-model="auth.userName" placeholder="username" type="" />
       </p>
       <p>
         <label for="password">Password</label>
@@ -20,35 +20,33 @@ import { ref } from 'vue';
 import authService from '@/services/auth';
 import type Auth from '@/types/auth';
 import { message } from '@basics/utils/useMessage';
+import router from '@/router';
+import { notification } from '@basics/utils/useNotification';
 
 const auth = ref<Auth>({
-  email: '',
+  userName: '',
   password: '',
+  mainCity: '',
 });
 
 const handleSubmit = async () => {
   // TODO la validation commune front/back
   try {
     await authService.login(auth.value);
-    message({
-      title: 'Login succesful',
-      text: 'Yes! Welcome to the logged-in part of this app!',
-    });
+    router.push({ name: 'home' });
+    notification('☀️  Authentification réussie! ');
   } catch (error) {
-    message({
-      title: 'Login failed',
-      text: 'Sorry, we were unable to log you in. Please check your email and password and try again. If you have forgotten your password, you can reset it by clicking the "Forgot password" button.',
-    });
+    notification(`🌧️  Oups! Nom d'utilisateur ou/et mot de passe incorect... `);
     throw error;
   }
 };
 </script>
 
-<style lang="postcss">
+<style>
 .login {
   padding: 2rem;
-  & label {
-    display: block;
-  }
+}
+.login.label{
+  display: block;
 }
 </style>
