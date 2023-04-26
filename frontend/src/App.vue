@@ -21,7 +21,7 @@ export default {
 @import "@/assets/sass/app.sass"
 
 #app
-  $vertScreen: 90vh
+  $vertScreen: 100vh
   text-align: center
   height: $vertScreen
   color: #2c3e50

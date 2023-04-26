@@ -5,8 +5,8 @@
 
       <form ref="register" @submit.prevent="login(user)">
         <div>
-          <app-label required>Email</app-label>
-          <app-input autocomplete="email" type="email" placeholder="email" required v-model="user.email"/>
+          <app-label required>Username</app-label>
+          <app-input type="" placeholder="username" required v-model="user.userName"/>
         </div>
         <div>
           <app-label required>Password</app-label>
@@ -28,7 +28,7 @@ export default {
   data() {
     return {
       user: {
-        email: '',
+        userName: '',
         password: '',
       },
     };
@@ -39,15 +39,15 @@ export default {
         try {
           await auth.login(user);
           this.$notification.show({
-            text: 'Login réussi !',
+            text: '☀️  Authentification réussie! ',
           });
           // TO DO spinner d'attente
 
-          this.$router.push({ name: 'demo' });
+          this.$router.push({ name: 'main' });
         } catch (error) {
           this.$message.show({
-            title: 'Erreur',
-            text: 'Impossible de vous connecter',
+            title: '🌧️',
+            text: "  Nom d'utilisateur ou/et mot de passe incorect... ",
             confirmText: 'Ok',
             hasCancel: false,
           });

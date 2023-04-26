@@ -33,7 +33,7 @@ const isLoggedIn = () => !!getToken();
 const login = async (user) => {
   try {
     const response = await axios.post(`${API_URL}/auth/login`, {
-      email: user.email,
+      userName: user.userName,
       password: user.password,
     });
 
