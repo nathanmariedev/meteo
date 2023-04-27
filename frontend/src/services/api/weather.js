@@ -8,9 +8,9 @@ if (TOKEN) {
   axios.defaults.headers.common.Authorization = `Bearer ${TOKEN}`;
 }
 
-const getByInsee = async (insee) => {
+const getHours = async (insee) => {
   try {
-    const response = await axios.get(`${API_URL}/city/${insee}`);
+    const response = await axios.get(`${API_URL}/meteo/hour/${insee}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -18,6 +18,6 @@ const getByInsee = async (insee) => {
 };
 
 const api = {};
-api.getByInsee = getByInsee;
+api.getHours = getHours;
 
 export default api;
