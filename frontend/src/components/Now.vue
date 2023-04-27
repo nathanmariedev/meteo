@@ -1,19 +1,16 @@
 <template>
     <section class="now">
         <div class="icon">
-            <Storm class="hide" />
-            <Sun class="" />
-            <Cloud class="hide" />
-            <CloudNight class="hide" />
-            <CloudSun class="hide" />
-            <Humidity class="hide" />
-            <Moon class="hide" />
-            <Rain class="hide" />
-            <Snow class="hide" />
-            <Wind class="hide" />
+            <Storm v-if="weather == 'storm'" />
+            <Sun v-else-if="weather == 'sun'" />
+            <Cloud v-else-if="weather == 'cloud'" />
+            <CloudNight v-else-if="weather == 'cloud_night'" />
+            <CloudSun v-else-if="weather == 'cloud_sun'" />
+            <Moon v-else-if="weather == 'moon'" />
+            <Rain v-else-if="weather == 'rain'" />
+            <Snow v-else-if="weather == 'snow'" />
         </div>
-        <p>{{ data }}</p>
-      HI!
+        <p class="temp">{{ data[0].temp2m }} °C</p>
     </section>
 </template>
 <script>
@@ -22,11 +19,9 @@ import Sun from '@/assets/img/weatherIcons/sun.svg';
 import Cloud from '@/assets/img/weatherIcons/cloud.svg';
 import CloudNight from '@/assets/img/weatherIcons/cloud_night.svg';
 import CloudSun from '@/assets/img/weatherIcons/cloud_sun.svg';
-import Humidity from '@/assets/img/weatherIcons/humidity.svg';
 import Moon from '@/assets/img/weatherIcons/moon.svg';
 import Rain from '@/assets/img/weatherIcons/rain.svg';
 import Snow from '@/assets/img/weatherIcons/snow.svg';
-import Wind from '@/assets/img/weatherIcons/wind.svg';
 
 export default {
   components: {
@@ -35,13 +30,49 @@ export default {
     Cloud,
     CloudNight,
     CloudSun,
-    Humidity,
     Moon,
     Rain,
     Snow,
-    Wind,
   },
   methods: {
+    getWeather(weather, nightMode, date = null) {
+      console.log('getWeather');
+      let hour = 12;
+      if (nightMode) {
+        hour = new Date(date).getHours();
+      }
+      if (weather >= 0 && weather <= 1) {
+        if (nightMode && (hour >= 20 && hour <= 7)) {
+          return 'moon';
+        }
+        return 'sun';
+      }
+      if (weather >= 2 && weather <= 3) {
+        if (nightMode && (hour >= 20 && hour <= 7)) {
+          return 'cloud_night';
+        }
+        return 'cloud_sun';
+      }
+      if (weather >= 4 && weather <= 5) {
+        return 'cloud';
+      }
+      if ((weather >= 10 && weather <= 12) || (weather >= 139 && weather <= 210)) {
+        return 'rain';
+      }
+      if (weather >= 20 && weather <= 22) {
+        return 'snow';
+      }
+      if (weather >= 100 && weather <= 138) {
+        return 'storm';
+      }
+      return 'unknown';
+    },
+  },
+  async mounted() {
+    this.weather = this.getWeather(this.data[0].weather, true, this.data[0].datetime);
+  },
+  async updated() {
+    this.weather = this.getWeather(this.data[0].weather, true, this.data[0].datetime);
   },
   props: {
     data: {
@@ -69,6 +100,11 @@ export default {
       iso0: Number,
     },
   },
+  data() {
+    return {
+      weather: '',
+    };
+  },
 };
 </script>
 <style lang="sass">
@@ -76,6 +112,9 @@ export default {
   height: 60vh
   width: 100%
   background: $background-dark
-  .hide
-    display: none
+  .icon
+    margin-top: 5vh
+  .temp
+    color: white
+    font-size: 32px
 </style>

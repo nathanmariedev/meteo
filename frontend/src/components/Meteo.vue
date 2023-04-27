@@ -1,6 +1,6 @@
 <template>
     <section class="meteo">
-      <app-title>{{ this.city }}</app-title>
+      <app-title>{{ city.name }}</app-title>
       <Now :data="this.meteoHours"/>
       <Hours />
       <Days />
@@ -28,20 +28,20 @@ export default {
     this.meteoHours = await this.getHours(this.$props.insee);
     this.city = await this.getCity(this.$props.insee);
     this.$watch('insee', async (newInsee) => {
-      console.log(newInsee);
-      await this.getCity(newInsee);
-      await this.getHours(newInsee);
+      this.city = await this.getCity(newInsee);
+      this.meteoHours = await this.getHours(newInsee);
       this.date = new Date(this.data);
     });
   },
   methods: {
     async getCity(insee) {
-      console.log('getCity');
       try {
+        console.log('getCity');
         const city = await cityApi.getByInsee(insee);
         this.$notification.show({
           text: city.data,
         });
+        return city.data;
       } catch (e) {
         this.$message.show({
           title: 'Erreur Get City',
@@ -49,15 +49,17 @@ export default {
           cancelText: 'Ok',
           hasCancel: true,
         });
+        return null;
       }
     },
     async getHours(insee) {
-      console.log('getHours');
       try {
+        console.log('getHours');
         const hours = await weatherApi.getHours(insee);
         this.$notification.show({
           text: `HOURS : ${hours.data[0].probarain}`,
         });
+        return hours.data;
       } catch (e) {
         this.$message.show({
           title: 'Erreur Get Hours',
@@ -65,6 +67,7 @@ export default {
           cancelText: 'Ok',
           hasCancel: true,
         });
+        return null;
       }
     },
   },
