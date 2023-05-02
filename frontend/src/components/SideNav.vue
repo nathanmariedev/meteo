@@ -8,11 +8,16 @@
         <app-collapse title="Villes favorites" v-model="activeCollapse" name="favs">
           <p v-for="city in favs" :key="city.insee" @click="redirectTo('main', city.insee)">{{ city.name }} <span v-if="city.insee === $props.user.mainCity.insee">🏠</span> </p>
         </app-collapse>
-        <app-button look="second" size="small" class="profileBtn" :type="button" >View profile</app-button>
+        <div>
+          <app-button look="second" size="small" class="profileBtn" :type="button" @click="redirectTo('profile')" >modifier profil</app-button>
+          <app-button look="second" size="small" class="decoBtn" :type="button" @click="disconnect" >déconnexion</app-button>
+        </div>
       </div>
   </div>
 </template>
 <script>
+import auth from '@/services/auth';
+
 export default {
   props: {
     user: {
@@ -37,8 +42,15 @@ export default {
   methods: {
     redirectTo(where, insee) {
       if (insee !== this.$route.params.insee) {
-        this.$router.push(`/main/${insee}`);
+        this.$router.push(`/${where}/${insee}`);
       }
+      if (insee === undefined) {
+        this.$router.push(`/${where}`);
+      }
+    },
+    disconnect() {
+      auth.logout();
+      this.redirectTo('');
     },
   },
 };
@@ -48,10 +60,11 @@ export default {
   background: $background-dark-secondary
   height: 100vh
   color: $dark-detail
-  width: auto
+  width: 20vw
   display: flex
   flex-direction: column
   justify-content: space-between
+  overflow-y: hidden
   .profile
     color: $light-color
     font-size: 20px
@@ -63,6 +76,8 @@ export default {
       max-height: 40px
       width: 40px
   .side
+    max-height: 75vh
+    overflow-y: scroll
     display: flex
     flex-direction: column
     justify-content: space-between

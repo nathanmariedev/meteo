@@ -21,9 +21,8 @@ export default {
 @import "@/assets/sass/app.sass"
 
 #app
-  $vertScreen: 100vh
   text-align: center
-  height: $vertScreen
+  min-height: 100vh
   color: #2c3e50
   display: flex
   flex-direction: column

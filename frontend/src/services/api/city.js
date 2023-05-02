@@ -17,7 +17,17 @@ const getByInsee = async (insee) => {
   }
 };
 
+const findByQuery = async (query) => {
+  try {
+    const response = await axios.get(`${API_URL}/city/find/${query}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const api = {};
 api.getByInsee = getByInsee;
+api.findByQuery = findByQuery;
 
 export default api;

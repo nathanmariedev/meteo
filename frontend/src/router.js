@@ -5,6 +5,9 @@ import Register from './views/Register.vue';
 import Home from './views/Home.vue';
 import Main from './views/Main.vue';
 import Demo from './views/Demo.vue';
+import Profile from './views/Profile.vue';
+import Search from './views/Search.vue';
+import Weather from './views/Weather.vue';
 
 Vue.use(Router);
 
@@ -41,6 +44,21 @@ export default new Router({
       path: '/main/:insee',
       name: 'main',
       component: Main,
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search,
+    },
+    {
+      path: '/weather/:insee',
+      name: 'weather',
+      component: Weather,
     },
     // Exemple de route pour une page connectée
     // {

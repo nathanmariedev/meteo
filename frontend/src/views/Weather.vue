@@ -1,56 +1,37 @@
 <template>
-    <section id="meteo">
-      <app-button @click="redirectTo('search')">🔎 Rechercher une ville ...</app-button>
-      <div>
+    <section class="weather">
+        <app-button class="home" :size="small" @click="() => { redirectTo('main') }">❄️ retour ❄️</app-button>
         <app-title>{{ city.name }}</app-title>
         <Now :data="this.meteoHours"/>
         <MeteoGallery :data="this.meteoHours" />
-      </div>
-    </section>
+  </section>
 </template>
 <script>
-import cityApi from '@/services/api/city';
-import weatherApi from '@/services/api/weather';
 import Now from '@/components/Now.vue';
 import MeteoGallery from '@/components/MeteoGallery.vue';
+import cityApi from '@/services/api/city';
+import weatherApi from '@/services/api/weather';
 
 export default {
   components: {
-    Now,
     MeteoGallery,
-  },
-  props: {
-    insee: String,
+    Now,
   },
   data() {
     return {
-      city: 'aaa',
       meteoHours: [],
+      city: {
+        insee: '',
+        cp: '',
+        name: '',
+      },
     };
   },
-  async created() {
-    console.log('METEO', this.$props.insee);
-    this.meteoHours = await this.getHours(this.$props.insee);
-    this.city = await this.getCity(this.$props.insee);
-    this.$watch('insee', async (newInsee) => {
-      this.city = await this.getCity(newInsee);
-      this.meteoHours = await this.getHours(newInsee);
-      this.date = new Date(this.data);
-    });
-  },
   methods: {
-    redirectTo(where, insee) {
-      if (insee !== this.$route.params.insee) {
-        this.$router.push(`/${where}/${insee}`);
-      }
-      if (insee === undefined) {
-        this.$router.push(`/${where}`);
-      }
-    },
     async getCity(insee) {
       try {
-        console.log('getCity');
         const city = await cityApi.getByInsee(insee);
+        this.$notification.show({ text: city.data.name });
         return city.data;
       } catch (e) {
         this.$message.show({
@@ -77,17 +58,31 @@ export default {
         return null;
       }
     },
+    async redirectTo(where, insee) {
+      if (insee === undefined) {
+        this.$router.push(`/${where}`);
+      }
+      if (insee !== this.$route.params.insee) {
+        this.$router.push(`/${where}/${insee}`);
+      }
+    },
+  },
+  async created() {
+    this.meteoHours = await this.getHours(this.$route.params.insee);
+    this.city = await this.getCity(this.$route.params.insee);
   },
 };
 </script>
 <style lang="sass">
-#meteo
-  background: $background-dark
-  width: 80vw
-  height: 100%
-  div
+body
+    background: $background-dark
+.weather
     display: flex
     flex-direction: column
     justify-content: flex-start
     align-items: center
+    button
+        position: absolute
+        top: 15px
+        left: 15px
 </style>

@@ -5,8 +5,8 @@
 
       <form ref="register" @submit.prevent="register(user)">
         <div>
-          <app-label required>Email</app-label>
-          <app-input autocomplete="email" type="email" placeholder="email" required v-model="user.email"/>
+          <app-label required>Username</app-label>
+          <app-input type="" placeholder="username" required v-model="user.userName"/>
         </div>
         <div>
           <app-label required>Password</app-label>
@@ -28,8 +28,9 @@ export default {
   data() {
     return {
       user: {
-        email: '',
+        userName: '',
         password: '',
+        mainCity: '75056',
       },
     };
   },
@@ -38,11 +39,8 @@ export default {
       if (this.$refs.register.checkValidity()) {
         try {
           await api.register(user);
-          this.$message.show({
-            title: 'Inscription réussie',
-            text: 'Votre inscription est effectuée. Vous allez prochainement recevoir un email pour activer votre compte.',
-            confirmText: 'Ok',
-            hasCancel: false,
+          this.$notification.show({
+            text: 'Inscription réussie!',
           });
         } catch (error) {
           this.$message.show({

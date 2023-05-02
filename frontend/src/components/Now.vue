@@ -53,7 +53,7 @@ export default {
         }
         return 'cloud_sun';
       }
-      if (weather >= 4 && weather <= 5) {
+      if (weather >= 4 && weather <= 9) {
         return 'cloud';
       }
       if ((weather >= 10 && weather <= 12) || (weather >= 139 && weather <= 210)) {
@@ -109,9 +109,7 @@ export default {
 </script>
 <style lang="sass">
 .now
-  height: 60vh
   width: 100%
-  background: $background-dark
   .icon
     margin-top: 5vh
   .temp

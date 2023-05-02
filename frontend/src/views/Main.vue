@@ -77,7 +77,6 @@ export default {
 </script>
 <style lang="sass">
 .main
-  background: $background-dark
   height: 100vh
   width: 100vw
 .content

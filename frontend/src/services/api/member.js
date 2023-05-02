@@ -11,11 +11,13 @@ if (TOKEN) {
 // Register member
 const register = async (user) => {
   try {
-    const response = await axios.post(`${API_URL}/auth/register`, {
-      email: user.email,
+    console.log(user.userName);
+    await axios.post(`${API_URL}/auth/register`, {
+      userName: user.userName,
       password: user.password,
+      mainCity: user.mainCity,
     });
-    return response.data;
+    return true;
   } catch (error) {
     throw error;
   }
@@ -45,6 +47,30 @@ const getMyFavs = async () => {
   }
 };
 
+const addFav = async (insee) => {
+  try {
+    await axios.get(`${API_URL}/city/${insee}`);
+    const user = { userName: '', insee };
+    const response = await axios.post(`${API_URL}/favs`, user);
+
+    return response;
+  } catch (er) {
+    throw er;
+  }
+};
+
+const dropFav = async (insee) => {
+  try {
+    const response = (await axios.delete(`${API_URL}/favs/${insee}`)).data.data;
+
+    // On des booleans pour facilité l'affichage qui dépend des droits
+
+    return response;
+  } catch (er) {
+    throw er;
+  }
+};
+
 const activate = async (token) => {
   try {
     const response = await axios.post(`${API_URL}/auth/register/activate?token=${token}`);
@@ -59,5 +85,7 @@ api.register = register;
 api.activate = activate;
 api.getMe = getMe;
 api.getMyFavs = getMyFavs;
+api.dropFav = dropFav;
+api.addFav = addFav;
 
 export default api;
