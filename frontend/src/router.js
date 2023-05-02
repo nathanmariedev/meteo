@@ -36,12 +36,7 @@ export default new Router({
       component: Register,
     },
     {
-      path: '/main',
-      name: 'main',
-      component: Main,
-    },
-    {
-      path: '/main/:insee',
+      path: '/main/:insee?',
       name: 'main',
       component: Main,
     },

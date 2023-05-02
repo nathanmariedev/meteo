@@ -3,8 +3,8 @@
       <app-button @click="redirectTo('search')">🔎 Rechercher une ville ...</app-button>
       <div>
         <app-title>{{ city.name }}</app-title>
-        <Now :data="this.meteoHours"/>
-        <MeteoGallery :data="this.meteoHours" />
+        <Now v-if="this.meteoHours[0] !== undefined" :data="this.meteoHours"/>
+        <MeteoGallery :data="this.meteoHours" v-if="this.meteoHours[0] !== undefined"  />
       </div>
     </section>
 </template>
