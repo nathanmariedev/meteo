@@ -13,7 +13,7 @@
           <app-input autocomplete="current-password" type="password" placeholder="mot de passe" required  v-model="user.password"/>
         </div>
         <div>
-          <app-button type="submit">Register</app-button>
+          <app-button type="submit">Login</app-button>
         </div>
       </form>
     </div>

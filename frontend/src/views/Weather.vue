@@ -45,7 +45,6 @@ export default {
     },
     async getHours(insee) {
       try {
-        console.log('getHours');
         const hours = await weatherApi.getHours(insee);
         return hours.data;
       } catch (e) {

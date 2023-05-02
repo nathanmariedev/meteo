@@ -16,9 +16,6 @@ export default {
   props: {
     data: [],
   },
-  mounted() {
-    console.log('data : ', this.$props.data[0].datetime);
-  },
 };
 </script>
 <style lang="sass">

@@ -43,18 +43,12 @@ export default {
       this.insee = user.mainCity.insee;
       const favs = await memberApi.getMyFavs();
       this.favs = favs;
-      this.$message.show({
-        title: 'Succès',
-        text: `${user.userName} is connected ⚡️`,
-        cancelText: 'Ok',
-        hasCancel: true,
-      });
     } catch (e) {
       this.$message.show({
         title: 'Erreur',
         text: e,
         cancelText: 'Ok',
-        hasCancel: true,
+        hasCancel: false,
       });
     }
   },

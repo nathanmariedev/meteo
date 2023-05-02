@@ -73,7 +73,6 @@ export default {
   },
   methods: {
     getWeather(weather, nightMode, date = null) {
-      console.log('getWeather');
       let hour = 12;
       if (nightMode) {
         hour = new Date(date).getHours();

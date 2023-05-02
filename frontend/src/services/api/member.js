@@ -47,6 +47,19 @@ const getMyFavs = async () => {
   }
 };
 
+const changeFav = async (codeInsee) => {
+  try {
+    console.log(codeInsee);
+    const response = (await axios.put(`${API_URL}/favs`), {
+      insee: codeInsee.toString(),
+    });
+
+    return response.data.data;
+  } catch (er) {
+    throw er;
+  }
+};
+
 const addFav = async (insee) => {
   try {
     await axios.get(`${API_URL}/city/${insee}`);
@@ -87,5 +100,6 @@ api.getMe = getMe;
 api.getMyFavs = getMyFavs;
 api.dropFav = dropFav;
 api.addFav = addFav;
+api.changeFav = changeFav;
 
 export default api;

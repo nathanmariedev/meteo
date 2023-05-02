@@ -42,11 +42,11 @@ export default {
       try {
         await memberApi.addFav(insee);
         this.$notification.show({
-          text: '☀️  Authentification réussie! ',
+          text: '☀️  Ajout réussi! ',
         });
       } catch (error) {
         this.$message.show({
-          text: "  Nom d'utilisateur ou/et mot de passe incorect... ",
+          text: "  L'ajout aux favoris ne peux être effectué... ",
         });
         throw error;
       }

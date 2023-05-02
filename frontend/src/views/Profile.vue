@@ -1,26 +1,14 @@
 <template>
     <section id="profile">
-      <app-button class="home" :size="small" @click="() => { redirectTo('main') }">❄️ retour ❄️</app-button>
+      <app-button class="home" size="small" @click="() => { redirectTo('main') }">❄️ retour ❄️</app-button>
       <div class="page">
         <app-title>Welcome {{ user.userName }}</app-title>
       </div>
-        <div class="pass">
-          <app-label>change password</app-label>
-          <div class="changePass">
-            <app-label>old password</app-label>
-            <app-input v-model="oldPass" type="password">Register</app-input>
-            <app-label>new password</app-label>
-            <app-input v-model="newPass" type="password">Register</app-input>
-            <app-label>comfirm new password</app-label>
-            <app-input v-model="newPass2" type="password">Register</app-input>
-            <app-button @click="updatePassword">update password</app-button>
-          </div>
-        </div>
         <div class="favs">
             <div class="favsList">
                 <app-label>Favorites</app-label>
                 <div v-for="fav in favs" :key="fav.name">
-                    <app-button :size="small" :type="button" v-if="fav.insee !== user.mainCity.insee" @click="() => {deletFav(fav.insee)}">remove</app-button>
+                    <app-button size="small" type="button" v-if="fav.insee !== user.mainCity.insee" @click="() => {deletFav(fav.insee)}">remove</app-button>
                     <span v-else>🏠</span>
                     <p>{{ fav.name }}</p>
                 </div>
@@ -28,7 +16,7 @@
             <div class="mainCity">
                 <app-label>main city</app-label>
                 <app-select :options="favsForSelect" v-model="main"></app-select>
-                <app-button>update main city</app-button>
+                <app-button @click="updateMainCity">update main city</app-button>
             </div>
         </div>
         <app-message/>
@@ -37,7 +25,6 @@
 </template>
 <script>
 import memberApi from '@/services/api/member';
-import auth from '@/services/auth';
 
 export default {
   components: {
@@ -50,9 +37,6 @@ export default {
       },
       favs: [],
       favsForSelect: [],
-      oldPass: '',
-      newPass: '',
-      newPass2: '',
       main: '',
     };
   },
@@ -60,16 +44,17 @@ export default {
     redirectTo(where) {
       this.$router.push({ name: where });
     },
-    async updatePassword() {
-      let a; let b;
-      if (auth.login({ userName: this.user.name, password: this.oldPass })) {
-        a = true;
-      }
-      if (this.newPass === this.newPass2) {
-        b = true;
-      }
-      if (a && b) {
-        memberApi.updateUser({ userName: this.user.name, password: this.newPass });
+    async updateMainCity() {
+      try {
+        await memberApi.changeFav(this.main);
+        this.$notification.show({
+          text: '🌪️ Main city succesfully updated!',
+        });
+        this.favs = await memberApi.getMyFavs();
+      } catch (e) {
+        this.$notification.show({
+          text: e.message,
+        });
       }
     },
     async deletFav(insee) {

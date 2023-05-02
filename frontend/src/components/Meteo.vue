@@ -29,7 +29,6 @@ export default {
     };
   },
   async created() {
-    console.log('METEO', this.$props.insee);
     this.meteoHours = await this.getHours(this.$props.insee);
     this.city = await this.getCity(this.$props.insee);
     this.$watch('insee', async (newInsee) => {
@@ -49,7 +48,6 @@ export default {
     },
     async getCity(insee) {
       try {
-        console.log('getCity');
         const city = await cityApi.getByInsee(insee);
         return city.data;
       } catch (e) {
@@ -64,7 +62,6 @@ export default {
     },
     async getHours(insee) {
       try {
-        console.log('getHours');
         const hours = await weatherApi.getHours(insee);
         return hours.data;
       } catch (e) {
