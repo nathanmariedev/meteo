@@ -8,6 +8,8 @@ import { Favs } from '../classes/favs.class';
 import { promises as fs } from 'fs';
 import { FindFavs } from '../dto/find-favs.dto';
 import { plainToClass } from 'class-transformer';
+import { User } from '../../user/classes/user.class';
+import { CreateFavsDto } from '../dto/create-fav.dto';
 
 dotenv.config();
 const sqlDir = path.join(__dirname, '/sql');
@@ -41,6 +43,16 @@ export class FavsModel extends BasicCrudModel<Favs> {
       return plainToClass(Favs, req.rows[0]) as Favs;
     } catch {
       throw new BadRequestException('Already in favorites!');
+    }
+  }
+
+  async changeFav(userName: string, newFav: CreateFavsDto): Promise<User> {
+    try {
+      const file = await fs.readFile(`${sqlDir}/update.sql`);
+      const req = await this.pg.raw(file.toString(), [newFav.insee, userName]);
+      return plainToClass(User, req.rows[0]) as User;
+    } catch {
+      throw new BadRequestException('Oops');
     }
   }
 }
