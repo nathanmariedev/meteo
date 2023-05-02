@@ -6,8 +6,8 @@
     <div class="resultsSpace">
         <div class="result" v-for="res in results" :key="res.insee">
             <p>{{ res.name }}</p>
-            <app-button :type="button" size="small" @click="addToFavs(res.insee)" >⭐️ favoris ⭐️</app-button>
-            <app-button :type="button" @click="redirectTo('weather', res.insee)" >🌨️ météo 🌨️</app-button>
+            <app-button type="button" size="small" @click="addToFavs(res.insee)" >⭐️ favoris ⭐️</app-button>
+            <app-button type="button" @click="redirectTo('weather', res.insee)" >🌨️ météo 🌨️</app-button>
         </div>
         <p>...</p>
     </div>

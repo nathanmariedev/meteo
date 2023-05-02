@@ -5,8 +5,8 @@
     <app-title>WeatherApp</app-title>
   </div>
     <div class="buttons">
-    <app-button :type="button" size="medium" @click="() => {redirectTo('register')}" >Register</app-button>
-    <app-button :type="button" :size="large" look="second" @click="() => {redirectTo('login')}" >Login</app-button>
+    <app-button type="button" size="medium" @click="() => {redirectTo('register')}" >Register</app-button>
+    <app-button type="button" size="medium" look="second" @click="() => {redirectTo('login')}" >Login</app-button>
     </div>
 
     <!-- Global basics components integration -->

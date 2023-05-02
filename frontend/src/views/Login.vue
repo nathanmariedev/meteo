@@ -6,7 +6,7 @@
       <form ref="register" @submit.prevent="login(user)">
         <div>
           <app-label required>Username</app-label>
-          <app-input type="" placeholder="username" required v-model="user.userName"/>
+          <app-input placeholder="username" required v-model="user.userName"/>
         </div>
         <div>
           <app-label required>Password</app-label>

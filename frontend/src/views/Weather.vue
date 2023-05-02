@@ -1,6 +1,6 @@
 <template>
     <section class="weather">
-        <app-button class="home" :size="small" @click="() => { redirectTo('main') }">❄️ retour ❄️</app-button>
+        <app-button class="home" size="small" @click="() => { redirectTo('main') }">❄️ retour ❄️</app-button>
         <app-title>{{ city.name }}</app-title>
         <Now :data="this.meteoHours"/>
         <MeteoGallery :data="this.meteoHours" />

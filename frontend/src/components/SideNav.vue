@@ -9,8 +9,8 @@
           <p v-for="city in favs" :key="city.insee" @click="redirectTo('main', city.insee)">{{ city.name }} <span v-if="city.insee === $props.user.mainCity.insee">🏠</span> </p>
         </app-collapse>
         <div>
-          <app-button look="second" size="small" class="profileBtn" :type="button" @click="redirectTo('profile')" >modifier profil</app-button>
-          <app-button look="second" size="small" class="decoBtn" :type="button" @click="disconnect" >déconnexion</app-button>
+          <app-button look="second" size="small" class="profileBtn" type="button" @click="redirectTo('profile')" >modifier profil</app-button>
+          <app-button look="second" size="small" class="decoBtn" type="button" @click="disconnect" >déconnexion</app-button>
         </div>
       </div>
   </div>

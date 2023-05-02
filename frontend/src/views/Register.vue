@@ -2,15 +2,14 @@
   <section class="register">
     <div class="grid-container">
       <app-subtitle>Register</app-subtitle>
-
       <form ref="register" @submit.prevent="register(user)">
         <div>
           <app-label required>Username</app-label>
-          <app-input type="" placeholder="username" required v-model="user.userName"/>
+          <app-input placeholder="username" required v-model="user.userName"/>
         </div>
         <div>
           <app-label required>Password</app-label>
-          <app-input autocomplete="new-password" type="password" placeholder="mot de passe" required  v-model="user.password"/>
+          <app-input type="password" placeholder="mot de passe" required  v-model="user.password"/>
         </div>
         <div>
           <app-button type="submit">Register</app-button>
