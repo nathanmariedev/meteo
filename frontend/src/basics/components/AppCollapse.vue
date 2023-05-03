@@ -55,7 +55,7 @@ export default {
 .app-collapse
   display: flex
   flex-direction: column
-  justify-content: start
+  justify-content: flex-start
   margin: 15px
   border-bottom: solid 1px #121212
   transition: all 0.5s linear
