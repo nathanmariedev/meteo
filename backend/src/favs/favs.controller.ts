@@ -7,6 +7,7 @@ import {
   UseInterceptors,
   Body,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -21,6 +22,7 @@ import { CreateFavsDto } from './dto/create-fav.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { RequestUser } from '../auth/decorators/request-user.decorator';
 import { JwtPayload } from '../auth/interfaces/jwt-payload.interface';
+import { User } from 'src/user/classes/user.class';
 
 @Controller('favs')
 @ApiTags('Favs')
@@ -52,5 +54,13 @@ export class FavsController {
   @ApiResponse({ status: 201, description: `User's favourite city successfully added` })
   async addFav(@RequestUser() user: JwtPayload, @Body() newFav: CreateFavsDto): Promise<Favs> {
     return await this.favsService.addFav(user.sub, newFav);
+  }
+
+  @Put()
+  @UseGuards(AuthGuard('access'))
+  @ApiResponse({ status: 200, description: `User's favourite city successfully updated` })
+  async changeFav(@RequestUser() user: JwtPayload, @Body() newFav: CreateFavsDto): Promise<User> {
+    console.log('newFav');
+    return await this.favsService.changeFav(user.sub, newFav);
   }
 }

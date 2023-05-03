@@ -1,19 +1,35 @@
 <template>
-  <div class="home">
-    <router-link :to="{ name: 'ui-kit' }">UI Kit Page</router-link>
+<section id="app">
+  <div class="logo">
+    <Storm />
+    <app-title>WeatherApp</app-title>
   </div>
+    <div class="buttons">
+    <app-button type="button" size="medium" @click="() => {redirectTo('register')}" >Register</app-button>
+    <app-button type="button" size="medium" look="second" @click="() => {redirectTo('login')}" >Login</app-button>
+    </div>
+
+    <!-- Global basics components integration -->
+    <app-message/>
+    <app-notifications/>
+</section>
 </template>
 
-<script lang="ts" setup>
-import { RouterLink } from 'vue-router';
+<script>
+import Storm from '@/assets/img/weatherIcons/storm.svg';
 
-/**
- * A home page
- */
+export default {
+  components: {
+    Storm,
+  },
+  methods: {
+    redirectTo(where) {
+      this.$router.push({ name: where });
+    },
+  },
+};
 </script>
-
-<style>
-.home {
-  padding: 2rem;
-}
+<style lang="sass">
+#app
+  background: $background-dark
 </style>

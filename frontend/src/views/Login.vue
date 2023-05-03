@@ -1,54 +1,72 @@
 <template>
   <section class="login">
-    <h2>Login</h2>
-    <form @submit.prevent="handleSubmit()">
-      <p>
-        <label for="email">Email</label>
-        <app-input id="email" type="email" v-model="auth.email" placeholder="email" />
-      </p>
-      <p>
-        <label for="password">Password</label>
-        <app-input id="password" type="password" v-model="auth.password" placeholder="password" />
-      </p>
-      <app-button type="submit">Log</app-button>
-    </form>
+    <div class="grid-container">
+      <app-subtitle>Login</app-subtitle>
+
+      <form ref="register" @submit.prevent="login(user)">
+        <div>
+          <app-label required>Username</app-label>
+          <app-input placeholder="username" required v-model="user.userName"/>
+        </div>
+        <div>
+          <app-label required>Password</app-label>
+          <app-input autocomplete="current-password" type="password" placeholder="mot de passe" required  v-model="user.password"/>
+        </div>
+        <div>
+          <app-button type="submit">Login</app-button>
+        </div>
+      </form>
+    </div>
   </section>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue';
-import authService from '@/services/auth';
-import type Auth from '@/types/auth';
-import { message } from '@basics/utils/useMessage';
+<script>
+import auth from '@/services/auth';
 
-const auth = ref<Auth>({
-  email: '',
-  password: '',
-});
+export default {
+  name: 'login',
+  data() {
+    return {
+      user: {
+        userName: '',
+        password: '',
+      },
+    };
+  },
+  methods: {
+    async login(user) {
+      if (this.$refs.register.checkValidity()) {
+        try {
+          await auth.login(user);
+          this.$notification.show({
+            text: '☀️  Authentification réussie! ',
+          });
+          // TO DO spinner d'attente
 
-const handleSubmit = async () => {
-  // TODO la validation commune front/back
-  try {
-    await authService.login(auth.value);
-    message({
-      title: 'Login succesful',
-      text: 'Yes! Welcome to the logged-in part of this app!',
-    });
-  } catch (error) {
-    message({
-      title: 'Login failed',
-      text: 'Sorry, we were unable to log you in. Please check your email and password and try again. If you have forgotten your password, you can reset it by clicking the "Forgot password" button.',
-    });
-    throw error;
-  }
+          this.$router.push({ name: 'main' });
+        } catch (error) {
+          this.$message.show({
+            title: '🌧️',
+            text: "  Nom d'utilisateur ou/et mot de passe incorect... ",
+            confirmText: 'Ok',
+            hasCancel: false,
+          });
+
+          throw error;
+        }
+      } else {
+        this.$refs.register.reportValidity();
+      }
+    },
+  },
 };
 </script>
 
-<style lang="postcss">
-.login {
-  padding: 2rem;
-  & label {
-    display: block;
-  }
-}
+<style lang="sass">
+.login
+  padding: 1rem
+  text-align: left
+  color: $light-color
+  form > div
+    padding: 1rem 0
 </style>

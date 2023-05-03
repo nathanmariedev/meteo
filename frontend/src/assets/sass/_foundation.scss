@@ -1,0 +1,41 @@
+/**
+ * Foundation for Sites by ZURB
+ * Version 6.5.3
+ * foundation.zurb.com
+ * Licensed under MIT Open Source
+ */
+
+// Dependencies
+@import '../../../node_modules/foundation-sites/scss/vendor/normalize';
+@import '../../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/helpers/missing-dependencies';
+@import '../../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/helpers/true';
+@import '../../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/functions/contain';
+@import '../../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/functions/purge';
+@import '../../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/functions/remove';
+@import '../../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/functions/replace';
+@import '../../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/functions/to-list';
+
+// --- Components ---
+// Utilities
+@import '../../../node_modules/foundation-sites/scss/util/util';
+
+// Grids
+@import '../../../node_modules/foundation-sites/scss/xy-grid/xy-grid';
+
+// Helpers
+@import '../../../node_modules/foundation-sites/scss/components/flex';
+@import '../../../node_modules/foundation-sites/scss/components/visibility';
+
+$flex: true;
+$global-flexbox: true !global;
+
+/// Sets the text direction of the CSS. Can be either `ltr` or `rtl`.
+/// @type Keyword
+$global-text-direction: ltr !default;
+
+// Internal variable that contains the flex justifying options
+$-zf-flex-justify: -zf-flex-justify($global-text-direction);
+
+@include foundation-xy-grid-classes;
+@include foundation-flex-classes;
+@include foundation-visibility-classes;
