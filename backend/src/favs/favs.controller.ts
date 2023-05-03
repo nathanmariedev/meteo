@@ -58,8 +58,9 @@ export class FavsController {
 
   @Put()
   @UseGuards(AuthGuard('access'))
-  @ApiResponse({ status: 20, description: `User's favourite city successfully updated` })
+  @ApiResponse({ status: 200, description: `User's favourite city successfully updated` })
   async changeFav(@RequestUser() user: JwtPayload, @Body() newFav: CreateFavsDto): Promise<User> {
+    console.log('newFav');
     return await this.favsService.changeFav(user.sub, newFav);
   }
 }

@@ -16,7 +16,7 @@
             <div class="mainCity">
                 <app-label>main city</app-label>
                 <app-select :options="favsForSelect" v-model="main"></app-select>
-                <app-button @click="updateMainCity">update main city</app-button>
+                <app-button @click="() => {updateMainCity(main)}">update main city</app-button>
             </div>
         </div>
         <app-message/>
@@ -44,9 +44,9 @@ export default {
     redirectTo(where) {
       this.$router.push({ name: where });
     },
-    async updateMainCity() {
+    async updateMainCity(insee) {
       try {
-        await memberApi.changeFav(this.main);
+        await memberApi.changeFav(insee);
         this.$notification.show({
           text: '🌪️ Main city succesfully updated!',
         });

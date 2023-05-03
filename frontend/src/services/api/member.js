@@ -31,6 +31,7 @@ const getMe = async () => {
 
     return response;
   } catch (er) {
+    console.log(er);
     throw er;
   }
 };
@@ -49,9 +50,8 @@ const getMyFavs = async () => {
 
 const changeFav = async (codeInsee) => {
   try {
-    console.log(codeInsee);
-    const response = (await axios.put(`${API_URL}/favs`), {
-      insee: codeInsee.toString(),
+    const response = await axios.put(`${API_URL}/favs`, {
+      insee: codeInsee,
     });
 
     return response.data.data;

@@ -46,10 +46,10 @@ export class FavsModel extends BasicCrudModel<Favs> {
     }
   }
 
-  async changeFav(userName: string, newFav: CreateFavsDto): Promise<User> {
+  async changeFav(userName: string, insee: string): Promise<User> {
     try {
       const file = await fs.readFile(`${sqlDir}/update.sql`);
-      const req = await this.pg.raw(file.toString(), [newFav.insee, userName]);
+      const req = await this.pg.raw(file.toString(), [insee, userName]);
       return plainToClass(User, req.rows[0]) as User;
     } catch {
       throw new BadRequestException('Oops');

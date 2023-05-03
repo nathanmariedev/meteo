@@ -2,19 +2,22 @@
   <section class="main">
     <div class="content">
         <SideNav :user="this.user" :favs="this.favs"/>
-        <Meteo :insee="this.insee"/>
+        <Meteo v-if="this.insee !== null" :insee="this.insee"/>
+        <Error v-else/>
     </div>
   </section>
 </template>
 <script>
 import SideNav from '@/components/SideNav.vue';
 import memberApi from '@/services/api/member';
+import Error from '@/components/Error.vue';
 import Meteo from '../components/Meteo.vue';
 
 export default {
   components: {
     SideNav,
     Meteo,
+    Error,
   },
   data() {
     return {
@@ -43,10 +46,11 @@ export default {
       this.insee = user.mainCity.insee;
       const favs = await memberApi.getMyFavs();
       this.favs = favs;
+      console.log('aaa');
     } catch (e) {
       this.$message.show({
         title: 'Erreur',
-        text: e,
+        text: e.message,
         cancelText: 'Ok',
         hasCancel: false,
       });

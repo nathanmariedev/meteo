@@ -22,6 +22,6 @@ export class FavsService {
   }
 
   async changeFav(userName: string, newFav: CreateFavsDto): Promise<User> {
-    return this.favsModel.changeFav(userName, newFav);
+    return this.favsModel.changeFav(userName, newFav.insee);
   }
 }

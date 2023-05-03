@@ -33,5 +33,9 @@
     "sass-loader": "^8.0.2",
     "vue-svg-loader": "^0.17.0-beta.2",
     "vue-template-compiler": "^2.6.14"
-  }
+  },
+  "description": "Bienvenue dans le starterkit Vue.js",
+  "main": ".eslintrc.js",
+  "author": "",
+  "license": "ISC"
 }
